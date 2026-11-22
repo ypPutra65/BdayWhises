@@ -16,17 +16,27 @@ export const EnvelopeExperience: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [hasEnteredExperience, setHasEnteredExperience] = useState<boolean>(false);
 
+  // Strictly ensure music is stopped on page load
+  useEffect(() => {
+    const bgMusic = document.getElementById("bg-music") as HTMLAudioElement | null;
+    if (bgMusic) {
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+    }
+  }, []);
+
   const handleOpenEnvelope = () => {
     if (isOpen) return;
     setIsOpen(true);
 
-    // Ensure audio starts immediately
+    // Audio starts playing automatically ONLY when user opens the envelope
     try {
       const bgMusic = document.getElementById("bg-music") as HTMLAudioElement | null;
-      if (bgMusic && bgMusic.paused) {
+      if (bgMusic) {
+        bgMusic.currentTime = 0;
         bgMusic.volume = 0.75;
         bgMusic.play().catch((err) => {
-          console.warn("Play on open:", err);
+          console.warn("Audio play on envelope open:", err);
         });
       }
     } catch (e) {
@@ -38,23 +48,6 @@ export const EnvelopeExperience: React.FC = () => {
       setHasEnteredExperience(true);
     }, 1900);
   };
-
-  // Fallback: If browser restricted the initial click, any subsequent interaction immediately un-mutes and plays
-  useEffect(() => {
-    const handleGesture = () => {
-      const bgMusic = document.getElementById("bg-music") as HTMLAudioElement | null;
-      if (bgMusic && bgMusic.paused && isOpen) {
-        bgMusic.play().catch(() => {});
-      }
-    };
-
-    window.addEventListener("click", handleGesture);
-    window.addEventListener("touchstart", handleGesture);
-    return () => {
-      window.removeEventListener("click", handleGesture);
-      window.removeEventListener("touchstart", handleGesture);
-    };
-  }, [isOpen]);
 
   const handleScrollToLetter = () => {
     const letterEl = document.getElementById("birthday-letter");
@@ -71,12 +64,12 @@ export const EnvelopeExperience: React.FC = () => {
       {/* Opening cinematic radial glow layer */}
       <OpeningAnimation isOpening={isOpen && !hasEnteredExperience} />
 
-      {/* Music Player Controller with in-DOM <audio> */}
-      <MusicPlayer />
+      {/* Music Player Controller - only shown once envelope is opened */}
+      <MusicPlayer showButton={isOpen} />
 
       <AnimatePresence mode="wait">
         {!hasEnteredExperience ? (
-          /* SECTION 1: THE INVITATION (LOCKED ENVELOPE) */
+          /* SECTION 1: THE INVITATION (LOCKED ENVELOPE) - COMPLETELY SILENT */
           <motion.div
             key="envelope-stage"
             className="min-h-screen flex flex-col items-center justify-center px-4 relative z-10"
