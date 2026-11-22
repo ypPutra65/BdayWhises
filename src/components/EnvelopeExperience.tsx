@@ -42,7 +42,7 @@ export const EnvelopeExperience: React.FC = () => {
       <OpeningAnimation isOpening={isOpen && !hasEnteredExperience} />
 
       {/* Music Player Controller */}
-      <MusicPlayer autoPlayTrigger={isOpen} />
+      <MusicPlayer />
 
       <AnimatePresence mode="wait">
         {!hasEnteredExperience ? (

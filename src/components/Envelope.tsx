@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { audioManager } from "@/lib/audioManager";
 
 interface EnvelopeProps {
   isOpen: boolean;
@@ -20,6 +21,9 @@ export const Envelope: React.FC<EnvelopeProps> = ({
 
   const handleEnvelopeClick = () => {
     if (isOpen) return;
+
+    // Start background music directly on user click
+    audioManager.play();
 
     // Subtle audio feedback using Web Audio API
     try {
