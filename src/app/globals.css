@@ -118,6 +118,94 @@ body {
   clip-path: polygon(12% 0%, 88% 0%, 75% 45%, 85% 100%, 15% 100%, 25% 45%);
 }
 
+/* Reference Video CSS Envelope Animation Engine */
+.envelope-wrapper {
+  --env-w: 360px;
+  --env-h: 240px;
+  --half-w: 180px;
+  --flap-h: 125px;
+  --pocket-b: 130px;
+  --pocket-t: 110px;
+  position: relative;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .envelope-wrapper {
+    --env-w: 290px;
+    --env-h: 195px;
+    --half-w: 145px;
+    --flap-h: 102px;
+    --pocket-b: 106px;
+    --pocket-t: 89px;
+  }
+}
+
+.envelope-base {
+  position: relative;
+  width: var(--env-w);
+  height: var(--env-h);
+  background: #140a0f;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.98), 0 0 45px rgba(74, 16, 29, 0.4);
+  border: 1px solid rgba(185, 154, 128, 0.2);
+}
+
+.envelope-pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: var(--half-w) solid #1a1017;
+  border-right: var(--half-w) solid #1a1017;
+  border-bottom: var(--pocket-b) solid #22151e;
+  border-top: var(--pocket-t) solid transparent;
+  border-radius: 0 0 12px 12px;
+  z-index: 3;
+  pointer-events: none;
+  filter: drop-shadow(0 -4px 10px rgba(0,0,0,0.6));
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: var(--half-w) solid transparent;
+  border-right: var(--half-w) solid transparent;
+  border-top: var(--flap-h) solid #2b1a25;
+  transform-origin: top center;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 4;
+}
+
+.envelope-flap.open {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope-letter {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  width: calc(var(--env-w) - 32px);
+  height: calc(var(--env-h) - 24px);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #241a21 0%, #170e14 100%);
+  border: 1px solid rgba(185, 154, 128, 0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.35s, box-shadow 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.35s;
+  transform: translateY(0);
+}
+
+.envelope-letter.open {
+  transform: translateY(-145px);
+  box-shadow: 0 35px 70px -12px rgba(0, 0, 0, 0.98), 0 0 45px rgba(185, 154, 128, 0.35);
+}
+
 /* Text Selection Styling */
 ::selection {
   background-color: #4A101D;
