@@ -10,7 +10,6 @@ interface Particle {
   x: number;
   y: number;
   radius: number;
-  baseRadius: number;
   vx: number;
   vy: number;
   swaySpeed: number;
@@ -22,12 +21,9 @@ interface Particle {
   twinklePhase: number;
   color: string;
   glowColor: string;
-  isStar: boolean;
-  starRotation: number;
-  rotationSpeed: number;
 }
 
-export const FloatingParticles: React.FC<FloatingParticlesProps> = ({ count = 90 }) => {
+export const FloatingParticles: React.FC<FloatingParticlesProps> = ({ count = 38 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -48,141 +44,82 @@ export const FloatingParticles: React.FC<FloatingParticlesProps> = ({ count = 90
 
     window.addEventListener("resize", handleResize);
 
-    // Festive Luxury Color Palette
-    const palette = [
-      { color: "#FDE68A", glow: "#F59E0B" }, // Shimmering Gold
-      { color: "#FCD34D", glow: "#D97706" }, // Rich Amber Gold
-      { color: "#FFFBEB", glow: "#FBBF24" }, // Luminous Champagne
-      { color: "#E0A96D", glow: "#B99A80" }, // Antique Gold
-      { color: "#F43F5E", glow: "#BE123C" }, // Radiant Crimson Ember
-      { color: "#FB7185", glow: "#9F1239" }, // Soft Burgundy Spark
+    // Quiet Luxury Editorial Palette (Warm Gold, Soft Champagne, Pure Ivory)
+    const luxuryPalette = [
+      { color: "#EDE4DC", glow: "#B99A80" }, // Soft Warm Ivory
+      { color: "#DFCCA8", glow: "#A08268" }, // Pale Champagne Gold
+      { color: "#CBB396", glow: "#8C6E54" }, // Antique Gold Mote
+      { color: "#E8D8C4", glow: "#9E7D62" }, // Whisper Gold
     ];
 
     const particles: Particle[] = [];
-    const actualCount = Math.min(count, Math.floor((width * height) / 12000) + 40);
+    // Balanced particle count based on screen area with spacious negative space
+    const actualCount = Math.min(count, Math.floor((width * height) / 32000) + 20);
 
     for (let i = 0; i < actualCount; i++) {
-      const pColor = palette[Math.floor(Math.random() * palette.length)];
-      const isStar = Math.random() < 0.28; // ~28% of particles are twinkling 4-point stars
-      const baseRadius = isStar
-        ? Math.random() * 2.2 + 1.8
-        : Math.random() < 0.18
-        ? Math.random() * 3.5 + 2.5 // Large glowing bokeh orbs
-        : Math.random() * 1.8 + 0.8; // Medium floating stardust
+      const pColor = luxuryPalette[Math.floor(Math.random() * luxuryPalette.length)];
+      // Microscopic, delicate dust sizes for high-end cinematic ambiance
+      const radius =
+        Math.random() < 0.8
+          ? Math.random() * 0.7 + 0.6 // 0.6px - 1.3px (fine celestial dust)
+          : Math.random() * 0.8 + 1.3; // 1.3px - 2.1px (soft warm ember)
 
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        radius: baseRadius,
-        baseRadius,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: -Math.random() * 0.6 - 0.25, // Gentle upward romantic float
-        swaySpeed: Math.random() * 0.02 + 0.008,
-        swayAmount: Math.random() * 1.2 + 0.4,
+        radius,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: -Math.random() * 0.25 - 0.1, // Ultra-slow, serene upward drift
+        swaySpeed: Math.random() * 0.012 + 0.005,
+        swayAmount: Math.random() * 0.8 + 0.3,
         swayAngle: Math.random() * Math.PI * 2,
-        alpha: Math.random() * 0.6 + 0.3,
-        baseAlpha: Math.random() * 0.5 + 0.4,
-        twinkleSpeed: Math.random() * 0.04 + 0.015,
+        alpha: Math.random() * 0.25 + 0.1,
+        baseAlpha: Math.random() * 0.28 + 0.12,
+        twinkleSpeed: Math.random() * 0.018 + 0.008, // Gentle breathing shimmer
         twinklePhase: Math.random() * Math.PI * 2,
         color: pColor.color,
         glowColor: pColor.glow,
-        isStar,
-        starRotation: Math.random() * Math.PI,
-        rotationSpeed: (Math.random() - 0.5) * 0.02,
       });
     }
 
-    // Function to draw an elegant 4-point diamond star
-    const drawStar = (
-      context: CanvasRenderingContext2D,
-      cx: number,
-      cy: number,
-      size: number,
-      rotation: number
-    ) => {
-      context.save();
-      context.translate(cx, cy);
-      context.rotate(rotation);
-      context.beginPath();
-
-      const inner = size * 0.22;
-      for (let i = 0; i < 4; i++) {
-        const armAngle = (i * Math.PI) / 2;
-        const valleyAngle = armAngle + Math.PI / 4;
-
-        if (i === 0) {
-          context.moveTo(Math.cos(armAngle) * size, Math.sin(armAngle) * size);
-        } else {
-          context.lineTo(Math.cos(armAngle) * size, Math.sin(armAngle) * size);
-        }
-        context.lineTo(Math.cos(valleyAngle) * inner, Math.sin(valleyAngle) * inner);
-      }
-
-      context.closePath();
-      context.fill();
-      context.restore();
-    };
-
-    let time = 0;
-
     const render = () => {
       ctx.clearRect(0, 0, width, height);
-      ctx.globalCompositeOperation = "screen"; // Additive glow for festive magnificence
-
-      time += 0.02;
 
       for (let p of particles) {
         p.swayAngle += p.swaySpeed;
-        p.x += p.vx + Math.sin(p.swayAngle) * p.swayAmount * 0.3;
+        p.x += p.vx + Math.sin(p.swayAngle) * (p.swayAmount * 0.2);
         p.y += p.vy;
 
         p.twinklePhase += p.twinkleSpeed;
-        p.starRotation += p.rotationSpeed;
 
-        // Dynamic twinkling luminosity
+        // Subtle organic breathing luminosity
         const twinkleFactor = (Math.sin(p.twinklePhase) + 1) / 2;
-        p.alpha = p.baseAlpha * 0.5 + twinkleFactor * p.baseAlpha * 0.7;
+        p.alpha = p.baseAlpha * 0.6 + twinkleFactor * p.baseAlpha * 0.6;
 
         // Screen wrap-around
-        if (p.y < -20) {
-          p.y = height + 20;
+        if (p.y < -10) {
+          p.y = height + 10;
           p.x = Math.random() * width;
         }
-        if (p.x < -20) p.x = width + 20;
-        if (p.x > width + 20) p.x = -20;
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
 
         ctx.save();
-        ctx.globalAlpha = Math.max(0.05, Math.min(1, p.alpha));
+        ctx.globalAlpha = Math.max(0.04, Math.min(0.55, p.alpha));
 
-        // Radiant multi-layer glow
-        ctx.shadowBlur = p.isStar ? 14 : p.baseRadius > 2.5 ? 20 : 8;
+        // Refined, subtle glow (never harsh or blinding)
+        ctx.shadowBlur = p.radius > 1.3 ? 5 : 2;
         ctx.shadowColor = p.glowColor;
         ctx.fillStyle = p.color;
 
-        if (p.isStar) {
-          // Draw sparkling star
-          const starSize = p.radius * (0.8 + twinkleFactor * 0.5);
-          drawStar(ctx, p.x, p.y, starSize * 2.2, p.starRotation);
-        } else {
-          // Draw glowing round ember
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Soft outer halo for larger particles
-          if (p.baseRadius > 2.5) {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
-            ctx.fillStyle = p.glowColor;
-            ctx.globalAlpha = p.alpha * 0.25;
-            ctx.fill();
-          }
-        }
+        // Draw delicate celestial dust particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
 
         ctx.restore();
       }
 
-      ctx.globalCompositeOperation = "source-over";
       animationFrameId = requestAnimationFrame(render);
     };
 
@@ -197,7 +134,7 @@ export const FloatingParticles: React.FC<FloatingParticlesProps> = ({ count = 90
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-90 transition-opacity duration-1000"
+      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-65 transition-opacity duration-1000"
       aria-hidden="true"
     />
   );

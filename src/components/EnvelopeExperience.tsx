@@ -58,8 +58,8 @@ export const EnvelopeExperience: React.FC = () => {
 
   return (
     <main className="relative min-h-screen bg-obsidian text-ivory overflow-hidden">
-      {/* Floating festive glowing embers & stars across entire app */}
-      <FloatingParticles count={95} />
+      {/* Floating subtle celestial dust & warm embers across entire app */}
+      <FloatingParticles count={36} />
 
       {/* Opening cinematic radial glow layer */}
       <OpeningAnimation isOpening={isOpen && !hasEnteredExperience} />
