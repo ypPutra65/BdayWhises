@@ -9,7 +9,9 @@ interface FloatingParticlesProps {
 interface Particle {
   x: number;
   y: number;
-  radius: number;
+  z: number; // 3D depth simulation (0.15 = far, 1.0 = close)
+  coreRadius: number;
+  haloRadius: number;
   vx: number;
   vy: number;
   swaySpeed: number;
@@ -19,11 +21,10 @@ interface Particle {
   baseAlpha: number;
   twinkleSpeed: number;
   twinklePhase: number;
-  color: string;
-  glowColor: string;
+  hueShift: number; // Subtle variety in golden amber tone
 }
 
-export const FloatingParticles: React.FC<FloatingParticlesProps> = ({ count = 38 }) => {
+export const FloatingParticles: React.FC<FloatingParticlesProps> = ({ count = 95 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -44,82 +45,93 @@ export const FloatingParticles: React.FC<FloatingParticlesProps> = ({ count = 38
 
     window.addEventListener("resize", handleResize);
 
-    // Quiet Luxury Editorial Palette (Warm Gold, Soft Champagne, Pure Ivory)
-    const luxuryPalette = [
-      { color: "#EDE4DC", glow: "#B99A80" }, // Soft Warm Ivory
-      { color: "#DFCCA8", glow: "#A08268" }, // Pale Champagne Gold
-      { color: "#CBB396", glow: "#8C6E54" }, // Antique Gold Mote
-      { color: "#E8D8C4", glow: "#9E7D62" }, // Whisper Gold
-    ];
-
     const particles: Particle[] = [];
-    // Balanced particle count based on screen area with spacious negative space
-    const actualCount = Math.min(count, Math.floor((width * height) / 32000) + 20);
+    const actualCount = Math.min(count, Math.floor((width * height) / 14000) + 40);
 
     for (let i = 0; i < actualCount; i++) {
-      const pColor = luxuryPalette[Math.floor(Math.random() * luxuryPalette.length)];
-      // Microscopic, delicate dust sizes for high-end cinematic ambiance
-      const radius =
-        Math.random() < 0.8
-          ? Math.random() * 0.7 + 0.6 // 0.6px - 1.3px (fine celestial dust)
-          : Math.random() * 0.8 + 1.3; // 1.3px - 2.1px (soft warm ember)
+      // Depth simulation (few large foreground orbs, many distant embers)
+      const z = Math.pow(Math.random(), 1.8) * 0.85 + 0.15; // 0.15 to 1.0
+
+      // Core and halo radii scaled by depth
+      const coreRadius = z > 0.75 ? Math.random() * 1.5 + 2.2 : Math.random() * 1.0 + 0.8;
+      const haloRadius = coreRadius * (z > 0.7 ? Math.random() * 5 + 4.5 : Math.random() * 4 + 3);
 
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        radius,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: -Math.random() * 0.25 - 0.1, // Ultra-slow, serene upward drift
-        swaySpeed: Math.random() * 0.012 + 0.005,
-        swayAmount: Math.random() * 0.8 + 0.3,
+        z,
+        coreRadius,
+        haloRadius,
+        vx: (Math.random() - 0.5) * 0.25 * z,
+        vy: (-Math.random() * 0.45 - 0.15) * z, // Upward floating drift proportional to depth
+        swaySpeed: Math.random() * 0.015 + 0.006,
+        swayAmount: (Math.random() * 1.2 + 0.4) * z,
         swayAngle: Math.random() * Math.PI * 2,
-        alpha: Math.random() * 0.25 + 0.1,
-        baseAlpha: Math.random() * 0.28 + 0.12,
-        twinkleSpeed: Math.random() * 0.018 + 0.008, // Gentle breathing shimmer
+        alpha: Math.random() * 0.4 + 0.5,
+        baseAlpha: Math.random() * 0.35 + (z > 0.7 ? 0.65 : 0.45),
+        twinkleSpeed: Math.random() * 0.025 + 0.01,
         twinklePhase: Math.random() * Math.PI * 2,
-        color: pColor.color,
-        glowColor: pColor.glow,
+        hueShift: (Math.random() - 0.5) * 10, // Variation around amber gold (38deg - 48deg)
       });
     }
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
+      // Additive screen blend mode for photographic optical glow
+      ctx.globalCompositeOperation = "screen";
+
       for (let p of particles) {
+        // Natural swaying drift physics
         p.swayAngle += p.swaySpeed;
-        p.x += p.vx + Math.sin(p.swayAngle) * (p.swayAmount * 0.2);
+        p.x += p.vx + Math.sin(p.swayAngle) * (p.swayAmount * 0.25);
         p.y += p.vy;
 
+        // Gentle breathing twinkle
         p.twinklePhase += p.twinkleSpeed;
+        const twinkle = (Math.sin(p.twinklePhase) + 1) / 2;
+        const currentAlpha = p.baseAlpha * 0.65 + twinkle * (p.baseAlpha * 0.35);
 
-        // Subtle organic breathing luminosity
-        const twinkleFactor = (Math.sin(p.twinklePhase) + 1) / 2;
-        p.alpha = p.baseAlpha * 0.6 + twinkleFactor * p.baseAlpha * 0.6;
-
-        // Screen wrap-around
-        if (p.y < -10) {
-          p.y = height + 10;
+        // Screen boundary wrap-around
+        if (p.y < -p.haloRadius * 2) {
+          p.y = height + p.haloRadius * 2;
           p.x = Math.random() * width;
         }
-        if (p.x < -10) p.x = width + 10;
-        if (p.x > width + 10) p.x = -10;
+        if (p.x < -p.haloRadius * 2) p.x = width + p.haloRadius * 2;
+        if (p.x > width + p.haloRadius * 2) p.x = -p.haloRadius * 2;
 
         ctx.save();
-        ctx.globalAlpha = Math.max(0.04, Math.min(0.55, p.alpha));
 
-        // Refined, subtle glow (never harsh or blinding)
-        ctx.shadowBlur = p.radius > 1.3 ? 5 : 2;
-        ctx.shadowColor = p.glowColor;
-        ctx.fillStyle = p.color;
+        // 1. Warm Golden Halo (Optical Radial Falloff)
+        const outerGrad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.haloRadius);
+        // Center: Intense white-hot luminescence
+        outerGrad.addColorStop(0, `rgba(255, 255, 255, ${currentAlpha * 0.95})`);
+        // Inner aura: Pale golden yellow
+        outerGrad.addColorStop(0.18, `rgba(254, 240, 138, ${currentAlpha * 0.85})`);
+        // Mid aura: Warm amber gold
+        outerGrad.addColorStop(0.48, `rgba(245, 158, 11, ${currentAlpha * 0.45})`);
+        // Outer halo: Deep golden ember tone
+        outerGrad.addColorStop(0.78, `rgba(217, 119, 6, ${currentAlpha * 0.15})`);
+        // Fade to transparent
+        outerGrad.addColorStop(1, "rgba(217, 119, 6, 0)");
 
-        // Draw delicate celestial dust particle
+        ctx.fillStyle = outerGrad;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.haloRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 2. Solid Incandescent White Core (Pinpoint of light)
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, currentAlpha * 1.1)})`;
+        ctx.shadowColor = "rgba(245, 158, 11, 0.85)";
+        ctx.shadowBlur = p.z > 0.6 ? 8 : 4;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.coreRadius, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.restore();
       }
 
+      ctx.globalCompositeOperation = "source-over";
       animationFrameId = requestAnimationFrame(render);
     };
 
@@ -132,10 +144,16 @@ export const FloatingParticles: React.FC<FloatingParticlesProps> = ({ count = 38
   }, [count]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-65 transition-opacity duration-1000"
-      aria-hidden="true"
-    />
+    <div className="pointer-events-none fixed inset-0 z-0 h-full w-full overflow-hidden">
+      {/* Subtle warm amber ambient vignette matching the reference image */}
+      <div className="absolute inset-0 bg-radial from-amber-950/15 via-transparent to-black/60 pointer-events-none" />
+
+      {/* Floating Golden Light Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="h-full w-full opacity-90 transition-opacity duration-1000"
+        aria-hidden="true"
+      />
+    </div>
   );
 };
