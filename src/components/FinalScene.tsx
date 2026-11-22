@@ -20,7 +20,7 @@ export const FinalScene: React.FC = () => {
         </p>
 
         <p className="font-sans text-[10px] tracking-[0.35em] uppercase text-antique-gold/45">
-          Bella · Chapter XXII
+          Bella · Chapter XXII · With Love, Putra
         </p>
       </div>
     </footer>

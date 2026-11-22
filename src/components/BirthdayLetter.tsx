@@ -36,7 +36,7 @@ export const BirthdayLetter: React.FC = () => {
           </span>
         </motion.div>
 
-        {/* Salutation */}
+        {/* Salutation / Headline */}
         <motion.div
           variants={letterParagraphVariant}
           initial="hidden"
@@ -51,43 +51,18 @@ export const BirthdayLetter: React.FC = () => {
 
         {/* Letter Paragraphs */}
         <div className="space-y-6 sm:space-y-7">
-          {letter.paragraphs.map((paragraph, index) => {
-            const isFirst = index === 0;
-
-            if (isFirst) {
-              const firstLetter = paragraph.charAt(0);
-              const remainingText = paragraph.slice(1);
-
-              return (
-                <motion.p
-                  key={index}
-                  variants={letterParagraphVariant}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-30px" }}
-                  className="font-serif text-base sm:text-lg md:text-xl text-ivory/90 leading-relaxed sm:leading-loose tracking-wide text-left font-light"
-                >
-                  <span className="float-left text-4xl sm:text-5xl md:text-6xl font-serif font-normal text-antique-gold leading-none mr-3 pt-1 select-none">
-                    {firstLetter}
-                  </span>
-                  {remainingText}
-                </motion.p>
-              );
-            }
-
-            return (
-              <motion.p
-                key={index}
-                variants={letterParagraphVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-30px" }}
-                className="font-serif text-base sm:text-lg md:text-xl text-ivory/85 leading-relaxed sm:leading-loose tracking-wide text-left font-light"
-              >
-                {paragraph}
-              </motion.p>
-            );
-          })}
+          {letter.paragraphs.map((paragraph, index) => (
+            <motion.p
+              key={index}
+              variants={letterParagraphVariant}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-30px" }}
+              className="font-serif text-base sm:text-lg md:text-xl text-ivory/90 leading-relaxed sm:leading-loose tracking-wide text-left font-light"
+            >
+              {paragraph}
+            </motion.p>
+          ))}
         </div>
 
         {/* Sign-off & Signature */}

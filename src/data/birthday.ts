@@ -33,15 +33,15 @@ export const birthdayData: BirthdayData = {
   revealHeadline: "HAPPY BIRTHDAY, BELLA",
   revealSubline: "Chapter XXII",
   letter: {
-    salutation: "Dearest Bella,",
+    salutation: "Happy 22nd Birthday, Bella!",
     paragraphs: [
-      "Happy 22nd Birthday! Today marks the beginning of a brand-new chapter in your story—one that I hope is filled with boundless joy, peace of mind, and all the quiet moments of wonder you so richly deserve.",
-      "Reaching twenty-two is a milestone of blossoming. You are stepping into a season where your dreams take deeper root, your wisdom grows brighter, and your presence touches everyone around you with warmth and grace.",
-      "As you embark on this year, my deepest prayer is for your happiness and good health. May you always find the strength to navigate every challenge, the courage to chase whatever sets your soul on fire, and the gentle reminder to celebrate yourself at every step along the way.",
-      "Never forget how truly special, resilient, and cherished you are. May life be endlessly gentle with your heart, and may this year bring you closer to everything you have ever dared to wish for."
+      "I hope this new chapter brings you closer to God and makes your faith even stronger. I hope you always become someone who brings happiness and good things to the people around you.",
+      "May everything you're working hard for go smoothly, and may all your dreams slowly come true. Always stay true to yourself and the people who matter to you.",
+      "I hope things get easier for you, even on the difficult days. Keep growing, be more patient, and leave behind the negative things that don't help you become a better person.",
+      "You deserve so many beautiful things in life. Here's to a wonderful year ahead. Enjoy your special day!"
     ],
-    closing: "With all my love,",
-    signature: "Always"
+    closing: "With Love,",
+    signature: "Putra"
   },
   cake: {
     candleCount: 22,
