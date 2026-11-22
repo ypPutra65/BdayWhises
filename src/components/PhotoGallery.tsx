@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { birthdayData, GalleryPhoto } from "@/data/birthday";
 
 export const PhotoGallery: React.FC = () => {
@@ -51,142 +51,51 @@ export const PhotoGallery: React.FC = () => {
     };
   }, [selectedIndex, handleClose, handlePrev, handleNext]);
 
-  const scrollToCake = () => {
-    const cakeEl = document.getElementById("birthday-cake");
-    if (cakeEl) {
-      cakeEl.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <section
       id="photo-gallery"
-      className="relative min-h-screen py-24 sm:py-36 px-4 sm:px-6 md:px-8 z-10 scroll-mt-12 overflow-hidden"
+      className="relative py-8 sm:py-14 px-4 z-10 flex flex-col items-center justify-center scroll-mt-8"
     >
-      {/* Background radial ambiance */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[700px] h-[340px] sm:h-[700px] bg-radial from-oxblood/40 via-burgundy/15 to-transparent blur-3xl pointer-events-none rounded-full" />
+      {/* Delicate hairline divider */}
+      <div className="w-16 sm:w-24 h-[1px] bg-gradient-to-r from-transparent via-antique-gold/25 to-transparent mb-6 sm:mb-8" />
 
-      <div className="relative max-w-7xl mx-auto">
-        {/* Section Editorial Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
+      {/* Small Compact Image Thumbnails (Zero text, pure images) */}
+      <div className="grid grid-cols-4 gap-2.5 sm:gap-4 md:gap-5 max-w-[340px] sm:max-w-md md:max-w-lg mx-auto w-full">
+        {gallery.photos.map((photo, index) => (
           <motion.div
-            initial={{ opacity: 0, y: -15 }}
+            key={photo.id}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.8 }}
-            className="flex items-center justify-center gap-4 mb-4"
+            viewport={{ once: true, margin: "-20px" }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.08,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            whileHover={{ scale: 1.06, y: -3 }}
+            onClick={() => setSelectedIndex(index)}
+            className="group relative aspect-[3/4] w-full overflow-hidden rounded-lg sm:rounded-xl bg-black/60 border border-antique-gold/30 hover:border-antique-gold transition-all duration-300 shadow-lg shadow-black/80 cursor-pointer select-none"
           >
-            <span className="w-8 sm:w-16 h-[1px] bg-antique-gold/30" />
-            <span className="font-sans text-[11px] sm:text-xs tracking-[0.35em] uppercase text-antique-gold/75">
-              {gallery.subtitle}
-            </span>
-            <span className="w-8 sm:w-16 h-[1px] bg-antique-gold/30" />
+            <Image
+              src={photo.src}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 75px, 120px"
+              className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-108"
+              priority={index < 2}
+            />
+
+            {/* Subtle gloss border overlay */}
+            <div className="absolute inset-0 border border-white/5 rounded-lg sm:rounded-xl pointer-events-none" />
+            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300" />
           </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.85, delay: 0.1 }}
-            className="font-serif italic text-3xl sm:text-5xl md:text-6xl text-ivory font-light tracking-wide mb-5"
-          >
-            {gallery.title}
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.85, delay: 0.2 }}
-            className="font-serif text-sm sm:text-base md:text-lg text-ivory/70 font-light leading-relaxed px-4"
-          >
-            {gallery.description}
-          </motion.p>
-        </div>
-
-        {/* Gallery Grid: 4 Exhibition Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 lg:gap-8">
-          {gallery.photos.map((photo, index) => (
-            <motion.div
-              key={photo.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{
-                duration: 0.8,
-                delay: index * 0.12,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              onClick={() => setSelectedIndex(index)}
-              className="group cursor-pointer relative flex flex-col bg-gradient-to-b from-[#181115]/90 via-[#130d10]/95 to-[#0e0a0c]/98 border border-antique-gold/20 hover:border-antique-gold/60 rounded-xl p-3 sm:p-3.5 shadow-2xl shadow-black/80 transition-all duration-500 hover:-translate-y-1.5"
-            >
-              {/* Inner Image Frame */}
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-black/60 border border-antique-gold/15">
-                <Image
-                  src={photo.src}
-                  alt={photo.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                  priority={index < 2}
-                />
-
-                {/* Subtle vignette gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-
-                {/* Tag pill at top left */}
-                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-md border border-antique-gold/30">
-                  <span className="font-sans text-[10px] tracking-[0.25em] uppercase text-antique-gold font-medium">
-                    {photo.numeral} · {photo.tag}
-                  </span>
-                </div>
-
-                {/* Magnify icon hover prompt */}
-                <div className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-antique-gold/30 flex items-center justify-center text-antique-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Maximize2 size={14} />
-                </div>
-              </div>
-
-              {/* Card Caption Info */}
-              <div className="pt-4 pb-2 px-1 flex flex-col flex-grow">
-                <div className="flex items-center justify-between mb-1">
-                  <h3 className="font-serif text-lg sm:text-xl text-ivory/95 font-medium tracking-wide group-hover:text-antique-gold transition-colors duration-300">
-                    {photo.title}
-                  </h3>
-                </div>
-                <span className="font-serif italic text-xs text-antique-gold/80 mb-2.5">
-                  {photo.subtitle}
-                </span>
-                <p className="font-serif text-xs sm:text-[13px] text-ivory/70 font-light leading-relaxed line-clamp-3">
-                  {photo.caption}
-                </p>
-              </div>
-
-              {/* Bottom delicate accent line */}
-              <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-antique-gold/20 to-transparent mt-2 group-hover:via-antique-gold/50 transition-all duration-500" />
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Scroll downstream indicator to Birthday Cake */}
-        <div className="mt-20 sm:mt-24 text-center">
-          <motion.button
-            onClick={scrollToCake}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="group inline-flex flex-col items-center gap-2 text-antique-gold/70 hover:text-antique-gold transition-colors cursor-pointer"
-          >
-            <span className="font-sans text-[11px] tracking-[0.35em] uppercase">
-              Next: Make a Wish
-            </span>
-            <div className="w-[1px] h-8 bg-gradient-to-b from-antique-gold/60 to-transparent group-hover:h-11 transition-all duration-300" />
-          </motion.button>
-        </div>
+        ))}
       </div>
 
-      {/* Cinematic Fullscreen Lightbox Modal */}
+      {/* Subtle bottom accent line */}
+      <div className="w-16 sm:w-24 h-[1px] bg-gradient-to-r from-transparent via-antique-gold/25 to-transparent mt-6 sm:mb-2 sm:mt-8" />
+
+      {/* Lightbox Modal (Pure image, no text/captions) */}
       <AnimatePresence>
         {selectedIndex !== null && selectedPhoto && (
           <motion.div
@@ -194,14 +103,14 @@ export const PhotoGallery: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
             onClick={handleClose}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/95 backdrop-blur-xl"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/95 backdrop-blur-md select-none"
           >
             {/* Close Button */}
             <button
               onClick={handleClose}
-              aria-label="Close modal"
+              aria-label="Close"
               className="absolute top-5 right-5 sm:top-8 sm:right-8 z-50 p-2.5 rounded-full bg-surface-dark/80 hover:bg-oxblood/80 border border-antique-gold/30 hover:border-antique-gold text-antique-gold hover:text-ivory transition-all duration-300 shadow-xl cursor-pointer"
             >
               <X size={20} />
@@ -213,10 +122,10 @@ export const PhotoGallery: React.FC = () => {
                 e.stopPropagation();
                 handlePrev();
               }}
-              aria-label="Previous photo"
-              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-surface-dark/80 hover:bg-oxblood/80 border border-antique-gold/30 hover:border-antique-gold text-antique-gold hover:text-ivory transition-all duration-300 shadow-xl cursor-pointer"
+              aria-label="Previous"
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 p-2.5 sm:p-3 rounded-full bg-surface-dark/80 hover:bg-oxblood/80 border border-antique-gold/30 hover:border-antique-gold text-antique-gold hover:text-ivory transition-all duration-300 shadow-xl cursor-pointer"
             >
-              <ChevronLeft size={24} />
+              <ChevronLeft size={22} />
             </button>
 
             {/* Next Navigation Button */}
@@ -225,58 +134,29 @@ export const PhotoGallery: React.FC = () => {
                 e.stopPropagation();
                 handleNext();
               }}
-              aria-label="Next photo"
-              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-surface-dark/80 hover:bg-oxblood/80 border border-antique-gold/30 hover:border-antique-gold text-antique-gold hover:text-ivory transition-all duration-300 shadow-xl cursor-pointer"
+              aria-label="Next"
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-2.5 sm:p-3 rounded-full bg-surface-dark/80 hover:bg-oxblood/80 border border-antique-gold/30 hover:border-antique-gold text-antique-gold hover:text-ivory transition-all duration-300 shadow-xl cursor-pointer"
             >
-              <ChevronRight size={24} />
+              <ChevronRight size={22} />
             </button>
 
-            {/* Content Container */}
+            {/* Pure Photo Presentation */}
             <motion.div
               initial={{ scale: 0.94, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.94, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-4xl w-full max-h-[92vh] flex flex-col items-center justify-center"
+              className="relative max-h-[82vh] w-auto aspect-[3/4] rounded-xl overflow-hidden border border-antique-gold/35 shadow-2xl shadow-black/95 bg-black"
             >
-              {/* Photo Frame */}
-              <div className="relative max-h-[68vh] sm:max-h-[72vh] w-auto aspect-[3/4] rounded-xl overflow-hidden border border-antique-gold/35 shadow-2xl shadow-black/95 bg-black">
-                <Image
-                  src={selectedPhoto.src}
-                  alt={selectedPhoto.title}
-                  fill
-                  sizes="(max-width: 768px) 90vw, 700px"
-                  className="object-contain"
-                  priority
-                />
-              </div>
-
-              {/* Modal Editorial Caption */}
-              <div className="mt-5 text-center max-w-xl px-4">
-                <div className="flex items-center justify-center gap-3 mb-1.5">
-                  <span className="font-sans text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-antique-gold/80">
-                    {selectedPhoto.numeral} · {selectedPhoto.tag}
-                  </span>
-                  <span className="text-antique-gold/40">·</span>
-                  <span className="font-serif italic text-xs sm:text-sm text-antique-gold/80">
-                    {selectedPhoto.subtitle}
-                  </span>
-                </div>
-
-                <h3 className="font-serif text-xl sm:text-2xl text-ivory font-normal tracking-wide mb-2">
-                  {selectedPhoto.title}
-                </h3>
-
-                <p className="font-serif text-xs sm:text-sm text-ivory/80 font-light leading-relaxed">
-                  {selectedPhoto.caption}
-                </p>
-
-                {/* Position counter indicator */}
-                <div className="mt-3 font-sans text-[10px] tracking-[0.3em] uppercase text-antique-gold/50">
-                  {selectedIndex + 1} of {gallery.photos.length}
-                </div>
-              </div>
+              <Image
+                src={selectedPhoto.src}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 90vw, 650px"
+                className="object-contain"
+                priority
+              />
             </motion.div>
           </motion.div>
         )}
