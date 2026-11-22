@@ -75,24 +75,21 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ autoPlayTrigger = fals
       <button
         onClick={toggleMusic}
         type="button"
-        aria-label={isPlaying ? "Mute music" : "Play music"}
-        className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-surface-dark/85 backdrop-blur-md border border-antique-gold/25 text-ivory text-xs tracking-wider transition-all duration-300 hover:border-antique-gold/60 hover:bg-surface-dark shadow-xl shadow-black/50 group cursor-pointer"
+        aria-label={isPlaying ? "Mute soundtrack" : "Play soundtrack"}
+        className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-dark/70 backdrop-blur-md border border-antique-gold/20 text-ivory/70 text-xs tracking-wider transition-all duration-300 hover:border-antique-gold/50 hover:text-ivory shadow-lg shadow-black/40 group cursor-pointer"
       >
         {isPlaying ? (
           <>
-            <span className="flex items-center gap-0.5 h-3">
-              <span className="w-0.5 h-full bg-antique-gold animate-[pulse_0.8s_ease-in-out_infinite]" />
-              <span className="w-0.5 h-2 bg-antique-gold animate-[pulse_1.2s_ease-in-out_infinite_0.2s]" />
-              <span className="w-0.5 h-full bg-antique-gold animate-[pulse_1s_ease-in-out_infinite_0.4s]" />
+            <Volume2 className="w-3.5 h-3.5 text-antique-gold/80" />
+            <span className="font-serif italic text-xs text-antique-gold/80 tracking-widest">
+              Audio
             </span>
-            <Volume2 className="w-3.5 h-3.5 text-antique-gold" />
-            <span className="hidden sm:inline font-sans text-[11px] text-ivory/90 font-medium">Sound On</span>
           </>
         ) : (
           <>
-            <VolumeX className="w-3.5 h-3.5 text-ivory/40 group-hover:text-ivory/80 transition-colors" />
-            <span className="hidden sm:inline font-sans text-[11px] text-ivory/50 group-hover:text-ivory/80 transition-colors font-medium">
-              Sound Off
+            <VolumeX className="w-3.5 h-3.5 text-ivory/40 group-hover:text-ivory/70 transition-colors" />
+            <span className="font-serif italic text-xs text-ivory/40 group-hover:text-ivory/70 tracking-widest">
+              Muted
             </span>
           </>
         )}

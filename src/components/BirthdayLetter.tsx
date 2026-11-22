@@ -11,37 +11,28 @@ export const BirthdayLetter: React.FC = () => {
   return (
     <section
       id="birthday-letter"
-      className="relative min-h-screen py-24 sm:py-32 px-4 sm:px-6 flex items-center justify-center z-10 scroll-mt-12"
+      className="relative min-h-screen py-24 sm:py-36 px-4 sm:px-6 flex items-center justify-center z-10 scroll-mt-12"
     >
-      {/* Background card container with luxury parchment styling */}
-      <div className="relative w-full max-w-2xl bg-gradient-to-b from-[#181216]/90 to-[#120e10]/95 backdrop-blur-xl border border-antique-gold/25 rounded-2xl p-6 sm:p-12 md:p-16 shadow-2xl shadow-black/90 overflow-hidden">
-        {/* Soft Background Watermark */}
-        <div className="absolute right-4 bottom-4 pointer-events-none select-none text-[120px] sm:text-[180px] font-serif font-bold text-antique-gold/[0.03] leading-none">
+      {/* Editorial Letter Card */}
+      <div className="relative w-full max-w-2xl bg-gradient-to-b from-[#181216]/95 to-[#110d0f]/98 backdrop-blur-xl border border-antique-gold/20 rounded-xl p-7 sm:p-14 md:p-18 shadow-2xl shadow-black/90 overflow-hidden">
+        {/* Soft Background Monogram */}
+        <div className="absolute right-6 bottom-6 pointer-events-none select-none text-[100px] sm:text-[150px] font-serif font-bold text-antique-gold/[0.025] leading-none">
           {chapter}
         </div>
 
-        {/* Ornate Gold Corner Filigrees */}
-        <div className="absolute top-3.5 left-3.5 w-5 h-5 border-t-2 border-l-2 border-antique-gold/40 rounded-tl-sm" />
-        <div className="absolute top-3.5 right-3.5 w-5 h-5 border-t-2 border-r-2 border-antique-gold/40 rounded-tr-sm" />
-        <div className="absolute bottom-3.5 left-3.5 w-5 h-5 border-b-2 border-l-2 border-antique-gold/40 rounded-bl-sm" />
-        <div className="absolute bottom-3.5 right-3.5 w-5 h-5 border-b-2 border-r-2 border-antique-gold/40 rounded-br-sm" />
-
-        {/* Inner subtle hairline border */}
-        <div className="absolute inset-2 border border-antique-gold/10 rounded-xl pointer-events-none" />
-
-        {/* Letter Header Stamp */}
+        {/* Letter Top Masthead */}
         <motion.div
           variants={letterParagraphVariant}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
-          className="flex items-center justify-between border-b border-antique-gold/15 pb-4 mb-8"
+          className="flex items-center justify-between border-b border-antique-gold/15 pb-5 mb-10"
         >
-          <span className="font-sans text-[10px] sm:text-xs tracking-[0.3em] uppercase text-antique-gold/80">
-            Chapter XXII · Letter No. 22
+          <span className="font-serif italic text-sm sm:text-base text-antique-gold/75">
+            Bella
           </span>
-          <span className="font-serif italic text-xs sm:text-sm text-ivory/50">
-            Personal & Confidential
+          <span className="font-sans text-[10px] sm:text-xs tracking-[0.3em] uppercase text-antique-gold/50">
+            Chapter XXII
           </span>
         </motion.div>
 
@@ -59,12 +50,11 @@ export const BirthdayLetter: React.FC = () => {
         </motion.div>
 
         {/* Letter Paragraphs */}
-        <div className="space-y-6">
+        <div className="space-y-6 sm:space-y-7">
           {letter.paragraphs.map((paragraph, index) => {
             const isFirst = index === 0;
 
             if (isFirst) {
-              // Classic editorial Drop Cap for the opening paragraph
               const firstLetter = paragraph.charAt(0);
               const remainingText = paragraph.slice(1);
 
@@ -75,9 +65,9 @@ export const BirthdayLetter: React.FC = () => {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: "-30px" }}
-                  className="font-serif text-base sm:text-lg md:text-xl text-ivory/90 leading-relaxed sm:leading-loose tracking-wide text-left"
+                  className="font-serif text-base sm:text-lg md:text-xl text-ivory/90 leading-relaxed sm:leading-loose tracking-wide text-left font-light"
                 >
-                  <span className="float-left text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-antique-gold leading-none mr-3 pt-1 select-none">
+                  <span className="float-left text-4xl sm:text-5xl md:text-6xl font-serif font-normal text-antique-gold leading-none mr-3 pt-1 select-none">
                     {firstLetter}
                   </span>
                   {remainingText}
@@ -92,7 +82,7 @@ export const BirthdayLetter: React.FC = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-30px" }}
-                className="font-serif text-base sm:text-lg md:text-xl text-ivory/85 leading-relaxed sm:leading-loose tracking-wide text-left"
+                className="font-serif text-base sm:text-lg md:text-xl text-ivory/85 leading-relaxed sm:leading-loose tracking-wide text-left font-light"
               >
                 {paragraph}
               </motion.p>
@@ -111,10 +101,10 @@ export const BirthdayLetter: React.FC = () => {
           <p className="font-serif italic text-sm sm:text-base text-ivory/60 mb-2">
             {letter.closing}
           </p>
-          <p className="font-serif italic text-xl sm:text-2xl md:text-3xl text-antique-gold font-medium tracking-wide">
+          <p className="font-serif italic text-xl sm:text-2xl md:text-3xl text-antique-gold font-normal tracking-wide">
             {letter.signature}
           </p>
-          <div className="w-16 h-[1px] bg-gradient-to-l from-antique-gold/60 to-transparent mt-3" />
+          <div className="w-12 h-[1px] bg-antique-gold/40 mt-3" />
         </motion.div>
       </div>
     </section>

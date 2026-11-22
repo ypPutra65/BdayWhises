@@ -26,12 +26,12 @@ export interface BirthdayData {
 export const birthdayData: BirthdayData = {
   recipient: "Bella",
   chapter: "XXII",
-  title: "BELLA — CHAPTER XXII",
-  subtitle: "A Special Letter For You",
+  title: "Bella",
+  subtitle: "A Letter For Your Twenty-Second Chapter",
   waxSealText: "XXII",
-  envelopeHint: "Tap the seal to open your letter",
+  envelopeHint: "Click to open",
   revealHeadline: "HAPPY BIRTHDAY, BELLA",
-  revealSubline: "XXII — A NEW CHAPTER BEGINS",
+  revealSubline: "Chapter XXII",
   letter: {
     salutation: "Dearest Bella,",
     paragraphs: [
@@ -40,15 +40,15 @@ export const birthdayData: BirthdayData = {
       "As you embark on this year, my deepest prayer is for your happiness and good health. May you always find the strength to navigate every challenge, the courage to chase whatever sets your soul on fire, and the gentle reminder to celebrate yourself at every step along the way.",
       "Never forget how truly special, resilient, and cherished you are. May life be endlessly gentle with your heart, and may this year bring you closer to everything you have ever dared to wish for."
     ],
-    closing: "With love and warmest wishes,",
-    signature: "Always for you,"
+    closing: "With all my love,",
+    signature: "Always"
   },
   cake: {
     candleCount: 22,
-    title: "MAKE A WISH, BELLA",
-    instructions: "Close your eyes, hold a wish in your heart, and blow out the candles.",
-    buttonText: "Make a Wish",
-    afterWishMessage: "Your wish has been released into the universe.",
-    quote: "“May all your quiet prayers, unspoken hopes, and sweetest dreams come true in Chapter XXII.”"
+    title: "Make a Wish, Bella",
+    instructions: "Hold a quiet wish in your heart, and blow out the twenty-two candles.",
+    buttonText: "Blow Out the Candles",
+    afterWishMessage: "Your wish is carried into this new year",
+    quote: "May all your quiet prayers, unspoken hopes, and sweetest dreams come true in Chapter XXII."
   }
 };

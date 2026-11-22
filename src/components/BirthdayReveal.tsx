@@ -2,7 +2,6 @@
 
 import React from "react";
 import { motion, Variants } from "framer-motion";
-import { ChevronDown, Sparkles } from "lucide-react";
 import { birthdayData } from "@/data/birthday";
 
 interface BirthdayRevealProps {
@@ -14,20 +13,20 @@ const letterContainerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.05,
-      delayChildren: 0.3,
+      staggerChildren: 0.04,
+      delayChildren: 0.25,
     },
   },
 };
 
 const letterCharVariants: Variants = {
-  hidden: { opacity: 0, y: 30, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 25, filter: "blur(6px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
     transition: {
-      duration: 0.9,
+      duration: 0.85,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -38,41 +37,30 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ onScrollToLetter
   const line2 = "BELLA";
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-24 z-10 overflow-hidden">
-      {/* 1. Dramatic Red / Oxblood Lighting Spotlight */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[650px] md:w-[850px] h-[340px] sm:h-[650px] md:h-[850px] bg-radial from-oxblood/80 via-burgundy/25 to-transparent blur-3xl pointer-events-none rounded-full animate-pulse-subtle" />
-
-      {/* 2. Secondary Deep Red Core Glow */}
+    <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-28 z-10 overflow-hidden">
+      {/* 1. Dramatic Dark Red Atmosphere */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[650px] md:w-[850px] h-[340px] sm:h-[650px] md:h-[850px] bg-radial from-oxblood/80 via-burgundy/25 to-transparent blur-3xl pointer-events-none rounded-full" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] sm:w-[350px] h-[180px] sm:h-[350px] bg-deep-red/20 blur-2xl pointer-events-none rounded-full" />
 
-      {/* 3. Vignette Border */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(9, 8, 9, 0.85) 100%)",
-        }}
-      />
-
-      {/* 4. Age Identity Badge: CHAPTER XXII */}
+      {/* 2. Editorial Overline (No AI-slop pill badge, no sparkles) */}
       <motion.div
-        className="relative z-20 mb-6 inline-flex items-center gap-3 px-5 py-2 rounded-full border border-antique-gold/30 bg-surface-dark/70 backdrop-blur-md shadow-lg shadow-black/60"
-        initial={{ opacity: 0, scale: 0.9, y: -25 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-20 mb-8 flex items-center justify-center gap-4 text-antique-gold/75"
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
       >
-        <Sparkles className="w-3.5 h-3.5 text-antique-gold animate-pulse" />
-        <span className="font-sans text-[11px] sm:text-xs tracking-[0.35em] uppercase text-antique-gold font-medium">
+        <span className="w-8 sm:w-16 h-[1px] bg-antique-gold/30" />
+        <span className="font-serif italic text-xs sm:text-sm tracking-[0.35em] uppercase text-antique-gold">
           {birthdayData.revealSubline}
         </span>
-        <Sparkles className="w-3.5 h-3.5 text-antique-gold animate-pulse" />
+        <span className="w-8 sm:w-16 h-[1px] bg-antique-gold/30" />
       </motion.div>
 
-      {/* 5. Staggered Cinematic Typography Reveal */}
+      {/* 3. Staggered Cinematic Typography Reveal */}
       <div className="relative z-20 max-w-5xl mx-auto flex flex-col items-center">
         {/* Line 1: HAPPY BIRTHDAY */}
         <motion.div
-          className="flex justify-center flex-wrap gap-x-2 sm:gap-x-4 mb-2 sm:mb-4"
+          className="flex justify-center flex-wrap gap-x-2 sm:gap-x-4 mb-2 sm:mb-3"
           variants={letterContainerVariants}
           initial="hidden"
           animate="visible"
@@ -115,34 +103,30 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ onScrollToLetter
         </motion.div>
       </div>
 
-      {/* 6. Gold Accent Line Divider */}
+      {/* 4. Minimalist Hairline Accent */}
       <motion.div
-        className="relative z-20 flex items-center justify-center gap-3 my-8 w-full max-w-xs sm:max-w-md mx-auto"
+        className="relative z-20 my-10 w-16 sm:w-28 h-[1px] bg-gradient-to-r from-transparent via-antique-gold/50 to-transparent"
         initial={{ opacity: 0, scaleX: 0 }}
         animate={{ opacity: 1, scaleX: 1 }}
-        transition={{ duration: 1.1, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-antique-gold/60" />
-        <span className="text-antique-gold text-xs">✦</span>
-        <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-antique-gold/60" />
-      </motion.div>
+        transition={{ duration: 1.1, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+      />
 
-      {/* 7. Intimate Editorial Subtitle */}
+      {/* 5. Intimate Editorial Subtitle */}
       <motion.p
-        className="relative z-20 font-serif italic text-lg sm:text-2xl md:text-3xl text-ivory/80 max-w-2xl mx-auto px-4 leading-relaxed"
-        initial={{ opacity: 0, y: 20 }}
+        className="relative z-20 font-serif italic text-base sm:text-xl md:text-2xl text-ivory/80 max-w-xl mx-auto px-4 leading-relaxed font-light"
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.9, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
       >
         “A celebration of your warmth, your grace, and the beautiful soul you are.”
       </motion.p>
 
-      {/* 8. Smooth Scroll Indicator to Letter */}
+      {/* 6. Minimalist Editorial Scroll Indicator */}
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-30 group"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.8, duration: 0.8 }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 cursor-pointer z-30 group"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6, duration: 0.8 }}
         onClick={onScrollToLetter}
         role="button"
         tabIndex={0}
@@ -153,12 +137,10 @@ export const BirthdayReveal: React.FC<BirthdayRevealProps> = ({ onScrollToLetter
           }
         }}
       >
-        <span className="text-[10px] tracking-[0.3em] uppercase text-antique-gold/80 font-sans group-hover:text-antique-gold transition-colors">
-          Read Your Letter
+        <span className="text-[10px] tracking-[0.35em] uppercase text-antique-gold/60 font-sans group-hover:text-antique-gold transition-colors">
+          Scroll to Read
         </span>
-        <div className="w-8 h-8 rounded-full border border-antique-gold/25 flex items-center justify-center group-hover:border-antique-gold/60 transition-colors bg-surface-dark/40 backdrop-blur-sm">
-          <ChevronDown className="w-4 h-4 text-antique-gold/70 animate-bounce" />
-        </div>
+        <div className="w-[1px] h-9 bg-gradient-to-b from-antique-gold/60 via-antique-gold/30 to-transparent animate-pulse" />
       </motion.div>
     </section>
   );

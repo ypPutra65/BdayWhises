@@ -204,14 +204,12 @@ export const Envelope: React.FC<EnvelopeProps> = ({
       {/* Subtle Hint Text Underneath */}
       {!isOpen && (
         <motion.p
-          className="mt-8 text-xs tracking-[0.28em] text-antique-gold/80 uppercase font-sans animate-pulse-subtle flex items-center gap-2"
+          className="mt-10 text-[11px] sm:text-xs tracking-[0.35em] text-antique-gold/60 uppercase font-sans font-light"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-antique-gold/60 inline-block" />
-          <span>{hintText}</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-antique-gold/60 inline-block" />
+          {hintText}
         </motion.p>
       )}
     </div>

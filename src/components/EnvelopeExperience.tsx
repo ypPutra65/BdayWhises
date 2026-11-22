@@ -62,23 +62,23 @@ export const EnvelopeExperience: React.FC = () => {
             {/* Ambient lighting behind envelope */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[520px] h-[320px] sm:h-[520px] bg-radial from-oxblood/80 via-burgundy/25 to-transparent blur-3xl pointer-events-none rounded-full" />
 
-            {/* Header Titles */}
-            <div className="text-center mb-8 sm:mb-12">
+            {/* Editorial Title */}
+            <div className="text-center mb-10 sm:mb-14">
               <motion.span
-                className="inline-block text-[10px] sm:text-xs font-sans tracking-[0.35em] uppercase text-antique-gold/80 mb-2"
+                className="block text-[11px] sm:text-xs font-serif italic tracking-[0.35em] uppercase text-antique-gold/75 mb-3"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                {birthdayData.chapter} · {birthdayData.title}
+                Chapter XXII
               </motion.span>
               <motion.h1
-                className="font-serif italic text-2xl sm:text-4xl text-ivory tracking-wide"
+                className="font-serif text-2xl sm:text-4xl text-ivory tracking-wider font-light"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                {birthdayData.subtitle}
+                A Letter for Bella
               </motion.h1>
             </div>
 
