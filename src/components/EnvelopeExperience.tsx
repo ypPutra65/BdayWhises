@@ -46,7 +46,7 @@ export const EnvelopeExperience: React.FC = () => {
     // After the 3D flap unfolds and the letter emerges, smoothly transition into the grand reveal
     setTimeout(() => {
       setHasEnteredExperience(true);
-    }, 2000);
+    }, 2200);
   };
 
   const handleScrollToLetter = () => {
