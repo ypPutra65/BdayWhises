@@ -1,0 +1,95 @@
+Phase 01 — Product Planning & Research
+Perencanaan
+- Finalisasi PRD.
+- Menentukan user journey.
+- Menetapkan fitur utama.
+- Menentukan referensi visual cinematic luxury.
+- Menentukan kebutuhan aset gambar dan audio.
+
+
+
+Phase 02 — UI/UX & Design System
+Desain
+- Membuat wireframe desktop dan mobile.
+- Menentukan palet merah, hitam, burgundy, dan ivory.
+- Memilih typography.
+- Menentukan layout setiap section.
+- Membuat prototype interaksi amplop.
+
+
+
+Phase 03 — Project Setup & Architecture
+Fondasi teknis
+- Setup Next.js App Router.
+- Konfigurasi TypeScript dan Tailwind CSS.
+- Instalasi Framer Motion.
+- Membuat struktur komponen.
+- Menyiapkan data ucapan dan aset lokal.
+
+
+
+Phase 04 — Cinematic Landing & Envelope
+Core feature
+- Membuat background cinematic.
+- Membuat amplop digital.
+- Membuat wax seal.
+- Mengimplementasikan CSS 3D transform.
+- Membuat interaksi klik dan animasi pembukaan.
+
+
+
+Phase 05 — Birthday Grand Reveal
+Core feature
+- Membuat transisi dari amplop.
+- Animasi teks Happy Birthday Bella.
+- Efek pencahayaan merah.
+- Efek partikel minimal.
+- Menampilkan identitas usia XXII.
+
+
+
+Phase 06 — Birthday Letter
+Content development
+- Menulis ucapan bahasa Inggris.
+- Menyusun doa dan harapan usia 22.
+- Membuat layout surat.
+- Mengimplementasikan scroll-triggered animation.
+- Mengatur keterbacaan pada mobile.
+
+
+
+Phase 07 — Final Wish & Interaction
+Interactive feature
+- Membuat ilustrasi atau komponen kue.
+- Menampilkan 22 lilin.
+- Membuat tombol Make a Wish.
+- Animasi lilin padam.
+- Efek confetti dan pesan penutup.
+
+
+
+Phase 08 — Audio & Visual Enhancement
+- Integrasi musik instrumental.
+- Tombol mute/unmute.
+- Penyempurnaan transisi.
+- Optimasi aset gambar.
+- Penyesuaian timing animasi.
+
+
+
+Phase 09 — Testing & Optimization
+- Pengujian desktop, tablet, dan mobile.
+- Pengujian seluruh interaksi.
+- Pengujian browser.
+- Pemeriksaan accessibility.
+- Optimasi performa dan bug fixing.
+
+
+
+Phase 10 — Deployment & Final Review
+Release
+- Push source code ke GitHub.
+- Deployment ke Vercel.
+- Pengujian URL publik.
+- Final review tampilan.
+- Membagikan website kepada Bella.

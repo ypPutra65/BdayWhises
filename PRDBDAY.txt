@@ -1,0 +1,395 @@
+# PRODUCT REQUIREMENTS DOCUMENT (PRD)
+## BELLA — CHAPTER XXII
+### Cinematic Interactive Birthday Experience
+
+**Product Type:** Interactive Birthday Website  
+**Platform:** Web Application  
+**Framework:** Next.js  
+**Language:** English (Birthday Content)  
+**Target Audience:** Bella  
+**Document Version:** 1.0  
+**Status:** Initial Development
+
+---
+
+# 1. Product Overview
+
+## 1.1 Background
+
+Bella — Chapter XXII merupakan website interaktif yang dirancang sebagai hadiah digital untuk merayakan ulang tahun Bella yang ke-22. Website ini menghadirkan pengalaman personal melalui kombinasi animasi sinematik, interaksi pengguna, tipografi elegan, serta rangkaian ucapan dan doa dalam bahasa Inggris.
+
+Berbeda dari website ucapan ulang tahun konvensional, pengguna tidak langsung disambut dengan pesan utama. Pengalaman dimulai melalui sebuah amplop digital yang harus dibuka secara interaktif untuk mengungkap kejutan berupa ucapan ulang tahun, surat personal, dan pesan harapan untuk perjalanan hidup di usia yang baru.
+
+## 1.2 Product Vision
+
+Menciptakan pengalaman ulang tahun digital yang personal, berkesan, dan interaktif melalui visual sinematik serta animasi yang dirancang secara terarah.
+
+## 1.3 Product Objectives
+
+1. Menghadirkan pengalaman ulang tahun digital yang berbeda dari website ucapan konvensional.
+2. Memberikan interaksi yang menarik melalui mekanisme pembukaan amplop digital.
+3. Menampilkan ucapan dan doa ulang tahun yang hangat dalam bahasa Inggris.
+4. Menghadirkan visual premium dengan kombinasi warna merah gelap dan hitam.
+5. Memastikan pengalaman website berjalan optimal pada perangkat desktop maupun mobile.
+
+---
+
+# 2. Target User
+
+## 2.1 Primary User
+
+Bella sebagai penerima hadiah digital sekaligus pengguna utama website.
+
+## 2.2 User Characteristics
+
+- Mengakses website melalui tautan yang dibagikan.
+- Menggunakan perangkat desktop maupun smartphone.
+- Berinteraksi dengan amplop digital untuk membuka pesan ulang tahun.
+- Membaca ucapan, doa, dan harapan yang ditampilkan.
+- Menggunakan fitur interaktif pada bagian akhir pengalaman.
+
+---
+
+# 3. Product Scope
+
+## 3.1 In Scope
+
+Fitur yang termasuk dalam pengembangan produk:
+
+1. Cinematic Landing Page.
+2. Interactive Digital Envelope.
+3. 3D Envelope Opening Animation.
+4. Birthday Grand Reveal.
+5. Personalized Birthday Letter.
+6. Animated Birthday Cake.
+7. Make a Wish Interaction.
+8. Background Music.
+9. Responsive Layout.
+10. Smooth Transition dan Scroll Animation.
+
+## 3.2 Out of Scope
+
+Fitur yang tidak menjadi bagian dari pengembangan awal:
+
+- Authentication dan user registration.
+- Database dan backend API.
+- Admin dashboard.
+- Payment gateway.
+- User-generated content.
+- Sistem komentar atau interaksi antarpengguna.
+
+Website dirancang sebagai aplikasi statis yang berfokus pada pengalaman pengguna, sehingga backend dan database belum diperlukan.
+
+---
+
+# 4. User Journey
+
+Pengalaman pengguna dibagi menjadi lima tahapan utama.
+
+## 4.1 The Invitation
+
+Pengguna pertama kali membuka website dan melihat halaman bernuansa hitam dengan pencahayaan merah gelap.
+
+Elemen yang ditampilkan:
+- Logo atau identitas Bella — Chapter XXII.
+- Amplop digital berwarna hitam.
+- Wax seal berwarna burgundy.
+- Tulisan "A Special Letter For You".
+- Instruksi "Click to Open".
+
+**User Action:** Pengguna mengklik amplop.
+
+## 4.2 The Opening
+
+Setelah amplop diklik, website menjalankan animasi pembukaan.
+
+Urutan interaksi:
+1. Wax seal menghilang dengan animasi.
+2. Tutup amplop terbuka menggunakan transformasi 3D.
+3. Surat bergerak keluar dari amplop.
+4. Layar mengalami transisi menuju halaman utama.
+
+**Expected Result:** Pengguna berhasil membuka surat dan memasuki pengalaman ulang tahun.
+
+## 4.3 The Grand Reveal
+
+Bagian ini menjadi momen utama website.
+
+Elemen yang ditampilkan:
+- Background hitam dengan pencahayaan burgundy.
+- Efek partikel yang minimal.
+- Tipografi serif berukuran besar.
+- Animasi kemunculan teks secara bertahap.
+
+Konten utama:
+
+**HAPPY BIRTHDAY, BELLA**
+
+**XXII — A NEW CHAPTER BEGINS**
+
+## 4.4 A Letter to You
+
+Bagian ini berisi surat ulang tahun dalam bahasa Inggris.
+
+Konten mencakup:
+- Ucapan ulang tahun.
+- Harapan untuk kebahagiaan dan kesehatan.
+- Doa untuk masa depan.
+- Harapan agar selalu diberikan kekuatan menghadapi tantangan.
+- Pesan untuk terus berkembang dan menghargai diri sendiri.
+
+Setiap paragraf ditampilkan menggunakan animasi fade-in ketika pengguna melakukan scrolling.
+
+## 4.5 The Final Wish
+
+Bagian terakhir menampilkan kue ulang tahun dengan 22 lilin.
+
+Fitur interaksi:
+1. Pengguna melihat kue ulang tahun.
+2. Tombol "MAKE A WISH" ditampilkan.
+3. Pengguna mengklik tombol.
+4. Animasi lilin padam dijalankan.
+5. Efek confetti muncul secara singkat.
+6. Pesan penutup ditampilkan.
+
+---
+
+# 5. Functional Requirements
+
+| ID | Feature | Requirement | Priority |
+|---|---|---|---|
+| FR-01 | Landing Page | Menampilkan halaman pembuka bertema cinematic dark luxury. | High |
+| FR-02 | Envelope | Menampilkan amplop digital yang dapat diklik. | High |
+| FR-03 | Wax Seal | Menampilkan animasi pembukaan atau pelepasan segel. | Medium |
+| FR-04 | Envelope Animation | Mengimplementasikan animasi lipatan amplop menggunakan CSS 3D. | High |
+| FR-05 | Birthday Reveal | Menampilkan ucapan Happy Birthday Bella dengan animasi bertahap. | High |
+| FR-06 | Birthday Letter | Menampilkan surat dan doa ulang tahun dalam bahasa Inggris. | High |
+| FR-07 | Scroll Animation | Menjalankan animasi ketika elemen memasuki viewport. | Medium |
+| FR-08 | Background Music | Menyediakan musik instrumental yang dapat diaktifkan pengguna. | Medium |
+| FR-09 | Birthday Cake | Menampilkan kue dengan 22 lilin. | High |
+| FR-10 | Make a Wish | Menjalankan interaksi meniup lilin dan animasi penutup. | High |
+| FR-11 | Responsive Design | Mendukung berbagai ukuran layar. | High |
+| FR-12 | Reduced Motion | Mengakomodasi pengguna yang mengaktifkan preferensi pengurangan animasi. | Medium |
+
+---
+
+# 6. UI/UX Design Requirements
+
+## 6.1 Design Direction
+
+**Theme:** Cinematic Dark Romance / Luxury Dark Experience.
+
+Karakter visual:
+- Dramatic.
+- Elegant.
+- Minimalist.
+- Premium.
+- Personal.
+
+Desain mengutamakan penggunaan ruang kosong, kontras warna, tipografi, dan pencahayaan untuk menciptakan atmosfer sinematik.
+
+## 6.2 Color Palette
+
+| Color Name | Hex Code | Usage |
+|---|---|---|
+| Obsidian Black | #090809 | Main Background |
+| Dark Surface | #151012 | Component Background |
+| Oxblood | #26090F | Secondary Background |
+| Burgundy | #4A101D | Primary Accent |
+| Deep Red | #781E30 | Highlight |
+| Ivory | #EDE4DC | Main Typography |
+| Antique Gold | #B99A80 | Decorative Accent |
+
+## 6.3 Typography
+
+| Font | Usage |
+|---|---|
+| Cormorant Garamond | Main Heading dan Editorial Text |
+| Inter | Body Text dan Interface |
+
+## 6.4 Design Principles
+
+1. Menghindari penggunaan gradient yang berlebihan.
+2. Menghindari ornamen dekoratif yang tidak memiliki fungsi.
+3. Membatasi penggunaan jenis font.
+4. Menggunakan animasi secara selektif.
+5. Mengutamakan konsistensi visual pada seluruh halaman.
+6. Menjaga keterbacaan konten pada layar kecil.
+
+---
+
+# 7. Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Next.js | Frontend Framework |
+| React | UI Component Development |
+| TypeScript | Type Safety |
+| Tailwind CSS | Styling |
+| Framer Motion | UI Animation |
+| GSAP | Advanced Animation (Optional) |
+| CSS 3D Transform | Envelope Animation |
+| Canvas Confetti | Confetti Effect |
+| Howler.js | Background Audio (Optional) |
+| Google Fonts | Typography |
+
+## 7.1 Architecture
+
+Aplikasi menggunakan pendekatan frontend-only dengan struktur komponen modular.
+
+Data ucapan, konfigurasi animasi, dan konten surat disimpan dalam file lokal.
+
+Tidak diperlukan database maupun backend API pada versi pertama.
+
+---
+
+# 8. Project Structure
+
+```text
+bella-chapter-xxii/
+├── public/
+│   ├── images/
+│   ├── music/
+│   └── textures/
+│
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   └── globals.css
+│   │
+│   ├── components/
+│   │   ├── EnvelopeExperience.tsx
+│   │   ├── Envelope.tsx
+│   │   ├── OpeningAnimation.tsx
+│   │   ├── BirthdayReveal.tsx
+│   │   ├── BirthdayLetter.tsx
+│   │   ├── FloatingParticles.tsx
+│   │   ├── BirthdayCake.tsx
+│   │   └── FinalScene.tsx
+│   │
+│   ├── data/
+│   │   └── birthday.ts
+│   │
+│   └── lib/
+│       └── animations.ts
+│
+├── package.json
+└── README.md
+```
+
+---
+
+# 9. Non-Functional Requirements
+
+## 9.1 Performance
+
+- Halaman utama harus dapat ditampilkan tanpa waktu tunggu yang tidak diperlukan.
+- Animasi tidak boleh menyebabkan gangguan pada interaksi pengguna.
+- Gambar harus dioptimalkan sebelum digunakan.
+- Penggunaan library animasi harus disesuaikan dengan kebutuhan.
+- Musik tidak boleh diputar otomatis sebelum mendapatkan interaksi pengguna.
+
+## 9.2 Responsiveness
+
+Website harus mendukung:
+- Desktop: 1440px dan lebih besar.
+- Laptop: 1024px–1439px.
+- Tablet: 768px–1023px.
+- Mobile: 320px–767px.
+
+## 9.3 Accessibility
+
+- Kontras teks harus memadai.
+- Tombol interaktif dapat digunakan menggunakan keyboard.
+- Animasi memperhatikan preferensi reduced motion.
+- Konten tetap dapat diakses ketika animasi dinonaktifkan.
+
+## 9.4 Browser Compatibility
+
+Website ditargetkan berjalan pada browser modern:
+- Google Chrome.
+- Microsoft Edge.
+- Mozilla Firefox.
+- Safari.
+
+---
+
+# 10. Acceptance Criteria
+
+Produk dinyatakan memenuhi kebutuhan awal apabila:
+
+1. Pengguna dapat membuka website melalui tautan tanpa login.
+2. Amplop ditampilkan dengan benar pada desktop dan mobile.
+3. Klik amplop menjalankan animasi pembukaan.
+4. Ucapan Happy Birthday Bella muncul setelah proses pembukaan.
+5. Surat ulang tahun dapat dibaca dengan baik.
+6. Animasi scrolling berjalan sesuai urutan.
+7. Kue menampilkan 22 lilin.
+8. Tombol Make a Wish menjalankan interaksi penutup.
+9. Musik dapat diaktifkan dan dinonaktifkan.
+10. Tidak terdapat elemen yang keluar dari viewport pada perangkat mobile.
+11. Website tetap dapat digunakan ketika preferensi reduced motion aktif.
+
+---
+
+# 11. Development Roadmap
+
+| Phase | Development Task |
+|---|---|
+| Phase 1 | Setup Next.js dan konfigurasi proyek |
+| Phase 2 | Implementasi design system dan layout |
+| Phase 3 | Pembuatan amplop dan animasi 3D |
+| Phase 4 | Implementasi grand reveal |
+| Phase 5 | Pembuatan birthday letter |
+| Phase 6 | Implementasi birthday cake dan final interaction |
+| Phase 7 | Integrasi musik dan efek visual |
+| Phase 8 | Responsive testing dan optimization |
+| Phase 9 | Deployment dan final review |
+
+---
+
+# 12. Deployment
+
+Website akan dipublikasikan menggunakan Vercel dengan integrasi repository GitHub.
+
+Target deployment:
+- Platform: Vercel.
+- Source Control: GitHub.
+- Framework: Next.js.
+- Domain: Menggunakan domain Vercel atau custom domain.
+
+Website dapat diakses melalui tautan publik yang nantinya dibagikan kepada Bella.
+
+---
+
+# 13. Success Metrics
+
+Keberhasilan produk dievaluasi berdasarkan:
+
+1. Seluruh tahapan interaksi dapat diselesaikan tanpa error.
+2. Animasi berjalan konsisten pada perangkat desktop dan mobile.
+3. Konten ucapan tersampaikan dengan baik.
+4. Tidak terdapat masalah layout maupun performa yang mengganggu pengalaman pengguna.
+5. Pengalaman keseluruhan terasa personal dan sesuai dengan konsep cinematic luxury.
+
+---
+
+# 14. Future Improvements
+
+Pengembangan lanjutan yang dapat dipertimbangkan:
+
+- Personalized photo gallery.
+- Custom voice message.
+- Interactive memory timeline.
+- More advanced 3D envelope simulation.
+- Custom domain.
+- Additional cinematic transitions.
+
+---
+
+**END OF DOCUMENT**
+
+**Product:** Bella — Chapter XXII  
+**Version:** 1.0  
+**Document Type:** Product Requirements Document
