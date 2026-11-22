@@ -82,6 +82,24 @@ export const BirthdayLetter: React.FC = () => {
           <div className="w-12 h-[1px] bg-antique-gold/40 mt-3" />
         </motion.div>
       </div>
+
+      {/* Downstream Scroll to Photo Gallery */}
+      <div className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 text-center">
+        <button
+          onClick={() => {
+            const galleryEl = document.getElementById("photo-gallery");
+            if (galleryEl) {
+              galleryEl.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          className="group inline-flex flex-col items-center gap-2 text-antique-gold/60 hover:text-antique-gold transition-colors cursor-pointer"
+        >
+          <span className="font-sans text-[10px] tracking-[0.3em] uppercase">
+            Explore Gallery
+          </span>
+          <div className="w-[1px] h-7 bg-gradient-to-b from-antique-gold/50 to-transparent group-hover:h-10 transition-all duration-300" />
+        </button>
+      </div>
     </section>
   );
 };

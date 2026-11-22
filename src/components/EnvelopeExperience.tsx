@@ -6,6 +6,7 @@ import { Envelope } from "./Envelope";
 import { OpeningAnimation } from "./OpeningAnimation";
 import { BirthdayReveal } from "./BirthdayReveal";
 import { BirthdayLetter } from "./BirthdayLetter";
+import { PhotoGallery } from "./PhotoGallery";
 import { BirthdayCake } from "./BirthdayCake";
 import { FinalScene } from "./FinalScene";
 import { FloatingParticles } from "./FloatingParticles";
@@ -135,10 +136,13 @@ export const EnvelopeExperience: React.FC = () => {
             {/* Phase 3: The Personal Letter */}
             <BirthdayLetter />
 
-            {/* Phase 4: Interactive Birthday Cake & Wish */}
+            {/* Phase 4: Bella's Moments Gallery */}
+            <PhotoGallery />
+
+            {/* Phase 5: Interactive Birthday Cake & Wish */}
             <BirthdayCake />
 
-            {/* Phase 5: Final Scene / Footer */}
+            {/* Phase 6: Final Scene / Footer */}
             <FinalScene />
           </motion.div>
         )}

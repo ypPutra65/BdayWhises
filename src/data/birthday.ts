@@ -1,3 +1,13 @@
+export interface GalleryPhoto {
+  id: string;
+  src: string;
+  title: string;
+  subtitle: string;
+  caption: string;
+  tag: string;
+  numeral: string;
+}
+
 export interface BirthdayData {
   recipient: string;
   chapter: string;
@@ -12,6 +22,12 @@ export interface BirthdayData {
     paragraphs: string[];
     closing: string;
     signature: string;
+  };
+  gallery: {
+    title: string;
+    subtitle: string;
+    description: string;
+    photos: GalleryPhoto[];
   };
   cake: {
     candleCount: number;
@@ -42,6 +58,49 @@ export const birthdayData: BirthdayData = {
     ],
     closing: "With Love,",
     signature: "Putra"
+  },
+  gallery: {
+    title: "Moments in Light",
+    subtitle: "A Portrait of Chapter XXII",
+    description: "Every summit reached, every unscripted laugh, and every quiet moment of serenity—captured in the grace of your journey.",
+    photos: [
+      {
+        id: "merbabu",
+        src: "/images/bella/bella-merbabu.jpg",
+        title: "Above the Clouds",
+        subtitle: "Mount Merbabu · 2,760 MDPL",
+        caption: "Conquering summits with pure joy, bright courage, and an adventurous soul.",
+        tag: "Adventure",
+        numeral: "I"
+      },
+      {
+        id: "golden-hour",
+        src: "/images/bella/bella-golden-hour.jpg",
+        title: "Golden Hour Glow",
+        subtitle: "Sunlit Warmth",
+        caption: "The radiant, playful smile that brings warmth and quiet magic to any path.",
+        tag: "Radiance",
+        numeral: "II"
+      },
+      {
+        id: "crater",
+        src: "/images/bella/bella-crater.jpg",
+        title: "Earth & Skies",
+        subtitle: "Highland Solitude",
+        caption: "Poised amidst the mist and open skies, calm, confident, and deeply inspiring.",
+        tag: "Serenity",
+        numeral: "III"
+      },
+      {
+        id: "windblown",
+        src: "/images/bella/bella-windblown.jpg",
+        title: "Whispers in the Wind",
+        subtitle: "Candid Grace",
+        caption: "Gentle, thoughtful, and free—a timeless glimpse into your effortless beauty.",
+        tag: "Grace",
+        numeral: "IV"
+      }
+    ]
   },
   cake: {
     candleCount: 22,

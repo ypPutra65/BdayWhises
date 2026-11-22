@@ -409,7 +409,10 @@ export const BirthdayCake: React.FC = () => {
   const tier3Candles = Array.from({ length: 10 });
 
   return (
-    <section className="relative min-h-screen py-24 sm:py-36 px-4 sm:px-6 flex flex-col items-center justify-center text-center z-10 overflow-hidden">
+    <section
+      id="birthday-cake"
+      className="relative min-h-screen py-24 sm:py-36 px-4 sm:px-6 flex flex-col items-center justify-center text-center z-10 overflow-hidden scroll-mt-12"
+    >
       {/* Embedded Audio Element for Party Popper SFX */}
       <audio id="popper-sfx" preload="auto">
         <source src="/music/popper.mp3" type="audio/mpeg" />
