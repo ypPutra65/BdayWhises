@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Envelope } from "./Envelope";
 import { OpeningAnimation } from "./OpeningAnimation";
@@ -20,11 +20,41 @@ export const EnvelopeExperience: React.FC = () => {
     if (isOpen) return;
     setIsOpen(true);
 
+    // Ensure audio starts immediately
+    try {
+      const bgMusic = document.getElementById("bg-music") as HTMLAudioElement | null;
+      if (bgMusic && bgMusic.paused) {
+        bgMusic.volume = 0.75;
+        bgMusic.play().catch((err) => {
+          console.warn("Play on open:", err);
+        });
+      }
+    } catch (e) {
+      console.warn("Audio trigger error:", e);
+    }
+
     // After the 3D flap unfolds and the letter emerges, transition into the grand reveal
     setTimeout(() => {
       setHasEnteredExperience(true);
     }, 1900);
   };
+
+  // Fallback: If browser restricted the initial click, any subsequent interaction immediately un-mutes and plays
+  useEffect(() => {
+    const handleGesture = () => {
+      const bgMusic = document.getElementById("bg-music") as HTMLAudioElement | null;
+      if (bgMusic && bgMusic.paused && isOpen) {
+        bgMusic.play().catch(() => {});
+      }
+    };
+
+    window.addEventListener("click", handleGesture);
+    window.addEventListener("touchstart", handleGesture);
+    return () => {
+      window.removeEventListener("click", handleGesture);
+      window.removeEventListener("touchstart", handleGesture);
+    };
+  }, [isOpen]);
 
   const handleScrollToLetter = () => {
     const letterEl = document.getElementById("birthday-letter");
@@ -41,7 +71,7 @@ export const EnvelopeExperience: React.FC = () => {
       {/* Opening cinematic radial glow layer */}
       <OpeningAnimation isOpening={isOpen && !hasEnteredExperience} />
 
-      {/* Music Player Controller */}
+      {/* Music Player Controller with in-DOM <audio> */}
       <MusicPlayer />
 
       <AnimatePresence mode="wait">

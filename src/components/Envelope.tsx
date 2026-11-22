@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { audioManager } from "@/lib/audioManager";
 
 interface EnvelopeProps {
   isOpen: boolean;
@@ -19,33 +18,23 @@ export const Envelope: React.FC<EnvelopeProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleEnvelopeClick = () => {
+  const handleEnvelopeClick = (e?: React.MouseEvent) => {
     if (isOpen) return;
 
-    // Start background music directly on user click
-    audioManager.play();
-
-    // Subtle audio feedback using Web Audio API
+    // Directly trigger the audio element inside user click event
     try {
-      const AudioCtx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (AudioCtx) {
-        const ctx = new AudioCtx();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(160, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(45, ctx.currentTime + 0.22);
-        gain.gain.setValueAtTime(0.25, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.25);
+      const bgMusic = document.getElementById("bg-music") as HTMLAudioElement | null;
+      if (bgMusic) {
+        bgMusic.volume = 0.75;
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            console.warn("Direct play waiting for document interaction:", err);
+          });
+        }
       }
-    } catch {
-      // Audio fallback silent
+    } catch (err) {
+      console.warn("Audio trigger error:", err);
     }
 
     onOpen();
@@ -168,7 +157,10 @@ export const Envelope: React.FC<EnvelopeProps> = ({
           </motion.div>
 
           {/* Guaranteed Dead-Center Wax Seal Container */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex items-center justify-center pointer-events-auto">
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex items-center justify-center cursor-pointer"
+            onClick={handleEnvelopeClick}
+          >
             <motion.div
               initial={{ scale: 1, opacity: 1 }}
               animate={
@@ -211,7 +203,8 @@ export const Envelope: React.FC<EnvelopeProps> = ({
       {/* Subtle Hint Text Underneath */}
       {!isOpen && (
         <motion.p
-          className="mt-10 text-[11px] sm:text-xs tracking-[0.35em] text-antique-gold/60 uppercase font-sans font-light"
+          className="mt-10 text-[11px] sm:text-xs tracking-[0.35em] text-antique-gold/60 uppercase font-sans font-light cursor-pointer"
+          onClick={handleEnvelopeClick}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
