@@ -25,13 +25,13 @@ export const Envelope: React.FC<EnvelopeProps> = ({
         (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
         const ctx = new AudioCtx();
-        // Gentle paper rustle / wax release frequency sweep
+        // Soft paper unfolding frequency sweep
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = "sine";
-        osc.frequency.setValueAtTime(320, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.35);
-        gain.gain.setValueAtTime(0.045, ctx.currentTime);
+        osc.frequency.setValueAtTime(340, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(110, ctx.currentTime + 0.35);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.38);
         osc.connect(gain);
         gain.connect(ctx.destination);
@@ -39,17 +39,17 @@ export const Envelope: React.FC<EnvelopeProps> = ({
         osc.stop(ctx.currentTime + 0.4);
       }
     } catch {
-      // Audio fallback silent
+      // Silent fallback
     }
   };
 
   const handleEnvelopeClick = (e?: React.MouseEvent) => {
     if (isOpen) return;
 
-    // Trigger subtle paper opening sound
+    // 1. Play paper rustle sound
     playOpenAudioCue();
 
-    // Directly trigger background music from click event to bypass browser autoplay policy
+    // 2. Play background music immediately inside user click handler
     try {
       const bgMusic = document.getElementById("bg-music") as HTMLAudioElement | null;
       if (bgMusic) {
@@ -87,34 +87,71 @@ export const Envelope: React.FC<EnvelopeProps> = ({
         }}
       >
         <div
-          className={`relative w-[280px] sm:w-[390px] h-[190px] sm:h-[265px] max-w-[calc(100vw-32px)] rounded-lg transition-transform duration-700 preserve-3d ${
+          className={`relative w-[280px] sm:w-[390px] h-[190px] sm:h-[265px] max-w-[calc(100vw-32px)] rounded-xl transition-transform duration-700 preserve-3d ${
             !isOpen && isHovered ? "scale-[1.025] -translate-y-1" : ""
           }`}
           style={{
             boxShadow:
-              "0 30px 60px -12px rgba(0, 0, 0, 0.9), 0 0 45px rgba(74, 16, 29, 0.35)",
+              "0 30px 60px -12px rgba(0, 0, 0, 0.95), 0 0 45px rgba(74, 16, 29, 0.35)",
           }}
         >
-          {/* 1. Back pocket interior wall */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#181014] to-[#0c080a] rounded-lg border border-antique-gold/15 overflow-hidden">
-            {/* Interior silk sheen */}
-            <div className="absolute inset-0 bg-radial from-burgundy/15 via-transparent to-black/40 pointer-events-none" />
+          {/* 1. Back Interior Wall (Inside of Envelope) */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#180f14] via-[#120a0f] to-[#0a0508] rounded-xl border border-antique-gold/20 overflow-hidden shadow-inner">
+            {/* Subtle inner velvet sheen */}
+            <div className="absolute inset-0 bg-radial from-burgundy/20 via-transparent to-black/50 pointer-events-none" />
           </div>
 
-          {/* 2. Full-sized Letter Card nestled realistically inside pocket */}
+          {/* 2. Top Flap (Flap Penutup Atas yang Terbuka Mulus ke Atas) */}
           <motion.div
-            className="absolute left-4 right-4 sm:left-6 sm:right-6 top-3 sm:top-4 h-[84%] bg-gradient-to-b from-[#241a20] via-[#1a1216] to-[#120b0e] border border-antique-gold/35 rounded-md p-4 sm:p-5 text-center shadow-2xl z-20 flex flex-col items-center justify-between overflow-hidden"
+            className="absolute top-0 left-0 right-0 h-1/2 origin-top"
+            initial={{ rotateX: 0, zIndex: 40 }}
+            animate={
+              isOpen
+                ? {
+                    rotateX: 180,
+                    zIndex: 10,
+                    transition: {
+                      rotateX: {
+                        duration: 0.85,
+                        ease: [0.33, 1, 0.68, 1],
+                        delay: 0.15,
+                      },
+                      zIndex: { delay: 0.55 }, // Switch behind envelope after passing 90deg
+                    },
+                  }
+                : { rotateX: 0, zIndex: 40 }
+            }
+            style={{
+              clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+              background: "linear-gradient(180deg, #261b22 0%, #170f15 100%)",
+              borderTop: "1px solid rgba(185, 154, 128, 0.35)",
+              boxShadow: "0 8px 25px rgba(0,0,0,0.7)",
+            }}
+          >
+            {/* Elegant inner hairline border */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                clipPath: "polygon(4% 0, 96% 0, 50% 93%)",
+                borderTop: "1px solid rgba(185, 154, 128, 0.18)",
+              }}
+            />
+          </motion.div>
+
+          {/* 3. The Letter Card (Glides Gracefully UP out of the pocket) */}
+          <motion.div
+            className="absolute left-4 right-4 sm:left-6 sm:right-6 top-3 sm:top-4 h-[84%] bg-gradient-to-b from-[#231a20] via-[#1a1216] to-[#120b0e] border border-antique-gold/35 rounded-lg p-4 sm:p-5 text-center shadow-2xl z-20 flex flex-col items-center justify-between overflow-hidden"
             initial={{ y: 0, scale: 1 }}
             animate={
               isOpen
                 ? {
-                    y: -140,
-                    scale: 1.04,
+                    y: -175,
+                    scale: 1.05,
                     boxShadow:
-                      "0 25px 50px -12px rgba(0, 0, 0, 0.95), 0 0 35px rgba(185, 154, 128, 0.25)",
+                      "0 30px 60px -12px rgba(0, 0, 0, 0.95), 0 0 40px rgba(185, 154, 128, 0.3)",
                     transition: {
-                      delay: 0.75,
-                      duration: 1.15,
+                      delay: 0.55,
+                      duration: 1.05,
                       ease: [0.22, 1, 0.36, 1],
                     },
                   }
@@ -133,9 +170,9 @@ export const Envelope: React.FC<EnvelopeProps> = ({
             </div>
 
             {/* Hint message preview in middle of card */}
-            <div className="w-full my-auto py-2 opacity-75">
+            <div className="w-full my-auto py-2 opacity-80">
               <div className="w-20 h-[1px] bg-antique-gold/20 mx-auto mb-2" />
-              <p className="font-serif italic text-xs sm:text-sm text-ivory/80 leading-relaxed max-w-[240px] mx-auto">
+              <p className="font-serif italic text-xs sm:text-sm text-ivory/85 leading-relaxed max-w-[240px] mx-auto">
                 “Hold this moment close, and let the quiet celebration begin...”
               </p>
               <div className="w-20 h-[1px] bg-antique-gold/20 mx-auto mt-2" />
@@ -147,98 +184,30 @@ export const Envelope: React.FC<EnvelopeProps> = ({
             </div>
           </motion.div>
 
-          {/* 3. Front Pocket Body (Left & Right Fold Flaps) */}
+          {/* 4. Front Pocket Left & Right Flaps */}
           <div
-            className="absolute inset-0 z-30 pointer-events-none rounded-lg overflow-hidden"
+            className="absolute inset-0 z-30 pointer-events-none rounded-xl overflow-hidden"
             style={{
               clipPath: "polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 50%)",
-              background: "linear-gradient(180deg, #1c1419 0%, #100b0e 100%)",
-              boxShadow: "inset 0 1px 3px rgba(185, 154, 128, 0.15)",
+              background: "linear-gradient(180deg, #1b1218 0%, #0f0a0d 100%)",
               borderBottom: "1px solid rgba(185, 154, 128, 0.22)",
               borderLeft: "1px solid rgba(185, 154, 128, 0.22)",
               borderRight: "1px solid rgba(185, 154, 128, 0.22)",
             }}
           />
 
-          {/* 4. Front Bottom Triangle Pocket */}
+          {/* 5. Front Pocket Bottom Flap (Overlaps left and right to form true envelope pocket) */}
           <div
-            className="absolute inset-0 z-30 pointer-events-none rounded-b-lg"
+            className="absolute inset-0 z-30 pointer-events-none rounded-b-xl"
             style={{
               clipPath: "polygon(0 100%, 100% 100%, 50% 50%)",
-              background: "linear-gradient(0deg, #120b0e 0%, #1f161b 100%)",
+              background: "linear-gradient(0deg, #11090d 0%, #1e141a 100%)",
               borderBottom: "1px solid rgba(185, 154, 128, 0.3)",
-              filter: "drop-shadow(0 -4px 10px rgba(0,0,0,0.5))",
+              filter: "drop-shadow(0 -4px 10px rgba(0,0,0,0.55))",
             }}
           />
 
-          {/* 5. Double-Sided 3D Top Flap with Clean Z-Index & Rotation */}
-          <motion.div
-            className="absolute top-0 left-0 right-0 h-1/2 origin-top preserve-3d"
-            initial={{ rotateX: 0, zIndex: 40 }}
-            animate={
-              isOpen
-                ? {
-                    rotateX: -180,
-                    zIndex: [40, 40, 15],
-                    transition: {
-                      rotateX: {
-                        duration: 0.95,
-                        ease: [0.33, 1, 0.68, 1],
-                        delay: 0.15,
-                      },
-                      zIndex: {
-                        duration: 0.95,
-                        times: [0, 0.48, 0.52],
-                        delay: 0.15,
-                      },
-                    },
-                  }
-                : { rotateX: 0, zIndex: 40 }
-            }
-          >
-            {/* FRONT FACE of Top Flap (Visible when closed) */}
-            <div
-              className="absolute inset-0 backface-hidden"
-              style={{
-                clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                background: "linear-gradient(180deg, #271c22 0%, #181115 100%)",
-                borderTop: "1px solid rgba(185, 154, 128, 0.35)",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.7)",
-              }}
-            >
-              {/* Subtle top flap accent hairline */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  clipPath: "polygon(4% 0, 96% 0, 50% 93%)",
-                  borderTop: "1px solid rgba(185, 154, 128, 0.16)",
-                }}
-              />
-            </div>
-
-            {/* BACK FACE of Top Flap (Visible when unfolded open) */}
-            <div
-              className="absolute inset-0 backface-hidden"
-              style={{
-                transform: "rotateX(180deg)",
-                clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                background: "linear-gradient(180deg, #220b16 0%, #13050c 100%)",
-                borderBottom: "1px solid rgba(185, 154, 128, 0.25)",
-                boxShadow: "inset 0 4px 14px rgba(0, 0, 0, 0.65)",
-              }}
-            >
-              {/* Inner satin lining hairline border */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  clipPath: "polygon(4% 0, 96% 0, 50% 93%)",
-                  borderBottom: "1px solid rgba(185, 154, 128, 0.15)",
-                }}
-              />
-            </div>
-          </motion.div>
-
-          {/* 6. Wax Seal Stamped at Exact Center */}
+          {/* 6. Wax Seal Stamped at Exact Dead-Center */}
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex items-center justify-center cursor-pointer"
             onClick={handleEnvelopeClick}
@@ -248,10 +217,10 @@ export const Envelope: React.FC<EnvelopeProps> = ({
               animate={
                 isOpen
                   ? {
-                      scale: [1, 1.12, 1.25],
+                      scale: [1, 1.15, 1.3],
                       opacity: [1, 0.85, 0],
                       filter: ["blur(0px)", "blur(1px)", "blur(6px)"],
-                      transition: { duration: 0.5, ease: "easeInOut" },
+                      transition: { duration: 0.45, ease: "easeInOut" },
                     }
                   : { scale: 1, opacity: 1, filter: "blur(0px)" }
               }

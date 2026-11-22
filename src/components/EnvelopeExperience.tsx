@@ -46,7 +46,7 @@ export const EnvelopeExperience: React.FC = () => {
     // After the 3D flap unfolds and the letter emerges, smoothly transition into the grand reveal
     setTimeout(() => {
       setHasEnteredExperience(true);
-    }, 2350);
+    }, 2000);
   };
 
   const handleScrollToLetter = () => {
@@ -77,16 +77,23 @@ export const EnvelopeExperience: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{
               opacity: 0,
-              scale: 1.08,
+              scale: 1.06,
               filter: "blur(8px)",
-              transition: { duration: 1.1, ease: [0.4, 0, 0.2, 1] },
+              transition: { duration: 0.9, ease: [0.4, 0, 0.2, 1] },
             }}
           >
             {/* Ambient lighting behind envelope */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[520px] h-[320px] sm:h-[520px] bg-radial from-oxblood/80 via-burgundy/25 to-transparent blur-3xl pointer-events-none rounded-full" />
 
-            {/* Editorial Title */}
-            <div className="text-center mb-10 sm:mb-14">
+            {/* Editorial Title - Fades gently when envelope opens to allow letter card to take center stage */}
+            <motion.div
+              className="text-center mb-8 sm:mb-12"
+              animate={{
+                opacity: isOpen ? 0 : 1,
+                y: isOpen ? -18 : 0,
+              }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
               <motion.span
                 className="block text-[11px] sm:text-xs font-serif italic tracking-[0.35em] uppercase text-antique-gold/75 mb-3"
                 initial={{ opacity: 0, y: -10 }}
@@ -103,7 +110,7 @@ export const EnvelopeExperience: React.FC = () => {
               >
                 A Letter for Bella
               </motion.h1>
-            </div>
+            </motion.div>
 
             {/* 3D Envelope Component */}
             <Envelope
