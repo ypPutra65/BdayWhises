@@ -43,10 +43,10 @@ export const EnvelopeExperience: React.FC = () => {
       console.warn("Audio trigger error:", e);
     }
 
-    // After the 3D flap unfolds and the letter emerges, transition into the grand reveal
+    // After the 3D flap unfolds and the letter emerges, smoothly transition into the grand reveal
     setTimeout(() => {
       setHasEnteredExperience(true);
-    }, 1900);
+    }, 2350);
   };
 
   const handleScrollToLetter = () => {
