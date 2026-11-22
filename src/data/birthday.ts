@@ -1,8 +1,3 @@
-export interface GalleryPhoto {
-  id: string;
-  src: string;
-}
-
 export interface BirthdayData {
   recipient: string;
   chapter: string;
@@ -17,9 +12,6 @@ export interface BirthdayData {
     paragraphs: string[];
     closing: string;
     signature: string;
-  };
-  gallery: {
-    photos: GalleryPhoto[];
   };
   cake: {
     candleCount: number;
@@ -50,14 +42,6 @@ export const birthdayData: BirthdayData = {
     ],
     closing: "With Love,",
     signature: "Putra"
-  },
-  gallery: {
-    photos: [
-      { id: "merbabu", src: "/images/bella/bella-merbabu.jpg" },
-      { id: "golden-hour", src: "/images/bella/bella-golden-hour.jpg" },
-      { id: "crater", src: "/images/bella/bella-crater.jpg" },
-      { id: "windblown", src: "/images/bella/bella-windblown.jpg" },
-    ]
   },
   cake: {
     candleCount: 22,

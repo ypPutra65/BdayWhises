@@ -82,22 +82,6 @@ export const BirthdayLetter: React.FC = () => {
           <div className="w-12 h-[1px] bg-antique-gold/40 mt-3" />
         </motion.div>
       </div>
-
-      {/* Downstream Scroll indicator */}
-      <div className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 text-center">
-        <button
-          onClick={() => {
-            const galleryEl = document.getElementById("photo-gallery");
-            if (galleryEl) {
-              galleryEl.scrollIntoView({ behavior: "smooth" });
-            }
-          }}
-          aria-label="Scroll down"
-          className="group inline-flex flex-col items-center gap-1.5 text-antique-gold/50 hover:text-antique-gold transition-colors cursor-pointer"
-        >
-          <div className="w-[1px] h-8 bg-gradient-to-b from-antique-gold/50 to-transparent group-hover:h-11 transition-all duration-300" />
-        </button>
-      </div>
     </section>
   );
 };
