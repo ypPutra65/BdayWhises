@@ -10,6 +10,45 @@ export const BirthdayCake: React.FC = () => {
   const [isWishing, setIsWishing] = useState<boolean>(false);
   const { cake } = birthdayData;
 
+  const playPopperAudio = () => {
+    // 1. Play realistic MP3/M4A sound effect
+    try {
+      const popperAudio = document.getElementById("popper-sfx") as HTMLAudioElement | null;
+      if (popperAudio) {
+        popperAudio.currentTime = 0;
+        popperAudio.volume = 0.95;
+        popperAudio.play().catch((err) => {
+          console.warn("Popper audio play error:", err);
+        });
+      }
+    } catch (e) {
+      console.warn("Audio element error:", e);
+    }
+
+    // 2. High-energy tactile pop impulse via Web Audio API for instantaneous punch
+    try {
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (AudioCtx) {
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(200, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(35, ctx.currentTime + 0.16);
+        gain.gain.setValueAtTime(0.45, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.2);
+      }
+    } catch {
+      // Audio fallback silent
+    }
+  };
+
   const handleMakeWish = () => {
     if (candlesBlown || isWishing) return;
     setIsWishing(true);
@@ -21,7 +60,7 @@ export const BirthdayCake: React.FC = () => {
         (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
         const ctx = new AudioCtx();
-        const bufferSize = ctx.sampleRate * 0.8;
+        const bufferSize = ctx.sampleRate * 0.7;
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
         for (let i = 0; i < bufferSize; i++) {
@@ -32,7 +71,7 @@ export const BirthdayCake: React.FC = () => {
         const filter = ctx.createBiquadFilter();
         filter.type = "lowpass";
         filter.frequency.setValueAtTime(450, ctx.currentTime);
-        filter.frequency.linearRampToValueAtTime(120, ctx.currentTime + 0.8);
+        filter.frequency.linearRampToValueAtTime(120, ctx.currentTime + 0.7);
 
         noise.connect(filter);
         filter.connect(ctx.destination);
@@ -42,17 +81,21 @@ export const BirthdayCake: React.FC = () => {
       // Audio fallback silent
     }
 
-    // Extinguish candles smoothly
+    // Extinguish candles smoothly and trigger party popper sound + confetti
     setTimeout(() => {
       setCandlesBlown(true);
       setIsWishing(false);
 
+      // Play the party popper explosion sound effect!
+      playPopperAudio();
+
       // Trigger luxury-toned confetti sequence
       const luxuryColors = ["#B99A80", "#EDE4DC", "#781E30", "#4A101D", "#D4AF37", "#FFFFFF"];
 
+      // First main burst
       confetti({
-        particleCount: 85,
-        spread: 80,
+        particleCount: 90,
+        spread: 85,
         origin: { y: 0.65 },
         colors: luxuryColors,
         ticks: 200,
@@ -60,33 +103,36 @@ export const BirthdayCake: React.FC = () => {
         scalar: 1.1,
       });
 
+      // Side cannons burst with subtle secondary pop after 320ms
       setTimeout(() => {
+        playPopperAudio();
         confetti({
-          particleCount: 50,
+          particleCount: 55,
           angle: 60,
-          spread: 55,
+          spread: 60,
           origin: { x: 0.15, y: 0.7 },
           colors: luxuryColors,
         });
         confetti({
-          particleCount: 50,
+          particleCount: 55,
           angle: 120,
-          spread: 55,
+          spread: 60,
           origin: { x: 0.85, y: 0.7 },
           colors: luxuryColors,
         });
-      }, 350);
+      }, 320);
 
+      // Gentle golden rain after 700ms
       setTimeout(() => {
         confetti({
-          particleCount: 35,
+          particleCount: 40,
           spread: 100,
           origin: { y: 0.4 },
           colors: ["#B99A80", "#D4AF37"],
           gravity: 0.6,
-          scalar: 0.8,
+          scalar: 0.85,
         });
-      }, 750);
+      }, 700);
     }, 700);
   };
 
@@ -95,6 +141,12 @@ export const BirthdayCake: React.FC = () => {
 
   return (
     <section className="relative min-h-screen py-28 sm:py-36 px-4 sm:px-6 flex flex-col items-center justify-center text-center z-10 overflow-hidden">
+      {/* Embedded Audio Element for Party Popper SFX */}
+      <audio id="popper-sfx" preload="auto">
+        <source src="/music/popper.mp3" type="audio/mpeg" />
+        <source src="/music/popper.m4a" type="audio/mp4" />
+      </audio>
+
       {/* Ambient background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[550px] h-[350px] sm:h-[550px] bg-radial from-burgundy/40 via-oxblood/15 to-transparent blur-3xl pointer-events-none rounded-full" />
 
