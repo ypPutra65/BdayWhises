@@ -23,7 +23,9 @@ export const Envelope: React.FC<EnvelopeProps> = ({
 
     // Subtle audio feedback using Web Audio API
     try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
         const ctx = new AudioCtx();
         const osc = ctx.createOscillator();
@@ -63,7 +65,7 @@ export const Envelope: React.FC<EnvelopeProps> = ({
         }}
       >
         <div
-          className={`relative w-[270px] sm:w-[390px] h-[185px] sm:h-[265px] max-w-[calc(100vw-32px)] rounded-lg transition-transform duration-700 preserve-3d ${
+          className={`relative w-[280px] sm:w-[390px] h-[190px] sm:h-[265px] max-w-[calc(100vw-32px)] rounded-lg transition-transform duration-700 preserve-3d ${
             !isOpen && isHovered ? "scale-[1.025] -translate-y-1" : ""
           }`}
           style={{
@@ -98,11 +100,11 @@ export const Envelope: React.FC<EnvelopeProps> = ({
             <div className="w-12 h-[1px] bg-antique-gold/40 mx-auto mt-2" />
           </motion.div>
 
-          {/* Front Pocket (Left & Right Fold Flaps) */}
+          {/* Front Pocket (Left & Right Fold Flaps) - converges at exact 50% 50% */}
           <div
             className="absolute inset-0 z-30 pointer-events-none rounded-lg overflow-hidden"
             style={{
-              clipPath: "polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 55%)",
+              clipPath: "polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 50%)",
               background:
                 "linear-gradient(180deg, #1d161a 0%, #110d0f 100%)",
               boxShadow: "inset 0 1px 3px rgba(185, 154, 128, 0.15)",
@@ -112,11 +114,11 @@ export const Envelope: React.FC<EnvelopeProps> = ({
             }}
           />
 
-          {/* Front Bottom Triangle Pocket */}
+          {/* Front Bottom Triangle Pocket - converges at exact 50% 50% */}
           <div
             className="absolute inset-0 z-30 pointer-events-none rounded-b-lg"
             style={{
-              clipPath: "polygon(0 100%, 100% 100%, 50% 48%)",
+              clipPath: "polygon(0 100%, 100% 100%, 50% 50%)",
               background:
                 "linear-gradient(0deg, #130d10 0%, #20171c 100%)",
               borderBottom: "1px solid rgba(185, 154, 128, 0.3)",
@@ -124,9 +126,9 @@ export const Envelope: React.FC<EnvelopeProps> = ({
             }}
           />
 
-          {/* Top Flap (Triangular flap that opens in 3D) */}
+          {/* Top Flap (Triangular flap that opens in 3D) - height exactly 50% so tip reaches center */}
           <motion.div
-            className="absolute top-0 left-0 right-0 h-[105px] sm:h-[140px] origin-top preserve-3d"
+            className="absolute top-0 left-0 right-0 h-1/2 origin-top preserve-3d"
             style={{
               zIndex: isOpen ? 15 : 40,
             }}
@@ -161,43 +163,44 @@ export const Envelope: React.FC<EnvelopeProps> = ({
             </div>
           </motion.div>
 
-          {/* Hyper-realistic Wax Seal on Flap Tip */}
-          <motion.div
-            className="absolute left-1/2 -translate-x-1/2 top-[76px] sm:top-[102px] z-50 flex items-center justify-center cursor-pointer"
-            initial={{ scale: 1, opacity: 1 }}
-            animate={
-              isOpen
-                ? {
-                    scale: 1.3,
-                    opacity: 0,
-                    filter: "blur(4px)",
-                    transition: { duration: 0.45, ease: "easeOut" },
-                  }
-                : { scale: 1, opacity: 1 }
-            }
-          >
-            <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-[#5a1323] via-[#3d0b17] to-[#1d050a] p-1 shadow-2xl flex items-center justify-center border border-[#781E30]/60 group-hover:scale-105 transition-all duration-300">
-              {/* Molten wax organic outer ring */}
-              <div
-                className="absolute inset-[-3px] rounded-full opacity-70 pointer-events-none"
-                style={{
-                  background:
-                    "radial-gradient(circle, rgba(120,30,48,0.4) 0%, rgba(74,16,29,0) 70%)",
-                }}
-              />
+          {/* Guaranteed Dead-Center Wax Seal Container */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex items-center justify-center pointer-events-auto">
+            <motion.div
+              initial={{ scale: 1, opacity: 1 }}
+              animate={
+                isOpen
+                  ? {
+                      scale: 1.3,
+                      opacity: 0,
+                      filter: "blur(4px)",
+                      transition: { duration: 0.45, ease: "easeOut" },
+                    }
+                  : { scale: 1, opacity: 1 }
+              }
+            >
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-[#5a1323] via-[#3d0b17] to-[#1d050a] p-1 shadow-2xl flex items-center justify-center border border-[#781E30]/60 group-hover:scale-105 transition-all duration-300">
+                {/* Molten wax organic outer ring */}
+                <div
+                  className="absolute inset-[-3px] rounded-full opacity-70 pointer-events-none"
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(120,30,48,0.4) 0%, rgba(74,16,29,0) 70%)",
+                  }}
+                />
 
-              {/* Wax Seal Outer Embossed Ring */}
-              <div className="absolute inset-1 rounded-full border border-antique-gold/45 shadow-[inset_0_1px_3px_rgba(255,255,255,0.2)]" />
+                {/* Wax Seal Outer Embossed Ring */}
+                <div className="absolute inset-1 rounded-full border border-antique-gold/45 shadow-[inset_0_1px_3px_rgba(255,255,255,0.2)]" />
 
-              {/* Inner Stamped Medallion */}
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-antique-gold/35 flex flex-col items-center justify-center bg-gradient-to-b from-[#310912] to-[#1c0409] shadow-inner">
-                <span className="font-serif font-bold text-antique-gold text-xs sm:text-sm tracking-widest drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)] select-none">
-                  {waxSealText}
-                </span>
-                <span className="w-4 h-[1px] bg-antique-gold/50 mt-0.5" />
+                {/* Inner Stamped Medallion */}
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-antique-gold/35 flex flex-col items-center justify-center bg-gradient-to-b from-[#310912] to-[#1c0409] shadow-inner">
+                  <span className="font-serif font-bold text-antique-gold text-xs sm:text-sm tracking-widest drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)] select-none">
+                    {waxSealText}
+                  </span>
+                  <span className="w-4 h-[1px] bg-antique-gold/50 mt-0.5" />
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
 
